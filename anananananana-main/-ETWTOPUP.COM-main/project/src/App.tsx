@@ -35,7 +35,7 @@ const Header = () => (
 );
 const gameConfig = {
   mlbb: {
-    name: 'Mobile Legends: Bang Bang (KH)',
+    name: 'Mobile legend KH',
     image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2Fuploads%2FImg_Resizer_20240801_2222_57312_4914487dd4.webp&w=750&q=75',
     tableName: 'mlbb_products',
     apiUrl: 'https://api.vibolshop.com/api_reseller/checkid_mlbb.php?userid={userId}&zoneid={serverId}',
@@ -43,7 +43,7 @@ const gameConfig = {
     enabled: true,
   },
   mlbb_ph: {
-    name: 'Mobile Legends: Bang Bang (PH)',
+    name: 'Mobile legend PH',
     image: 'https://play-lh.googleusercontent.com/M9_okpLdBz0unRHHeX7FcZxEPLZDIQNCGEBoql7MxgSitDL4wUy4iYGQxfvqYogexQ',
     tableName: 'mlbb_ph_products',
     apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
