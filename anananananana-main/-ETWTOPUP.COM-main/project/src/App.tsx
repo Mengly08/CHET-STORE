@@ -46,7 +46,7 @@ const gameConfig = {
     enabled: true,
   },
   mlbb_ph: {
-    name: 'Mobile legend PH',
+    name: 'Mobile Legends PH',
     image: 'https://dinotopup.com/assets/thumbnail/dbpsroyf1mso95otl5ds%20(1).webp',
     tableName: 'mlbb_ph_products',
     apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
@@ -594,7 +594,7 @@ const App: React.FC = () => {
         .nav-container {
           display: flex;
           justify-content: center;
-          margin: 5px 0;
+          margin: 5px 0 16px 0;
           width: 100%;
           max-width: 422px;
           margin: 0 auto;
@@ -932,93 +932,58 @@ const App: React.FC = () => {
           line-height: 1.2;
           font-family: 'Noto Sans Khmer', sans-serif;
         }
+        .popular-header-icon {
+          width: 20px;
+          height: 20px;
+          background-color: #ffd700;
+          border-radius: 4px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
         .popular-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, auto);
-          gap: 12px;
+          gap: 10px;
           justify-content: center;
         }
         @media (max-width: 422px) {
           .popular-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 6px;
           }
         }
         .popular-card {
-          display: flex;
-          align-items: center;
-          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-          border-radius: 10px;
-          padding: 8px;
-          gap: 8px;
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
-          border: 2px solid #ffd700;
           position: relative;
+          border-radius: 10px;
           overflow: hidden;
+          background: #333;
+          width: 100%;
+          height: 80px;
           cursor: pointer;
+          transition: transform 0.2s;
         }
-        .popular-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
-          filter: brightness(120%);
-        }
-        .popular-card:active::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(255, 215, 0, 0.2);
-          pointer-events: none;
-          animation: fadeOut 0.3s ease forwards;
-        }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; }
+        .popular-card.enabled:hover {
+          transform: scale(1.05);
         }
         .popular-card img {
-          width: 60px;
-          height: 60px;
+          width: 100%;
+          height: 100%;
           object-fit: cover;
-          border-radius: 8px;
-          flex-shrink: 0;
-          border: 1px solid #ffd700;
         }
-        .popular-card .game-info {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-          max-width: calc(100% - 68px);
-        }
-        .popular-card .game-title {
-          font-size: 0.875rem;
-          font-weight: 600;
-          color: #ffffff;
-          font-family: 'Noto Sans Khmer', sans-serif;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .popular-card .game-subtitle {
-          font-size: 0.625rem;
-          color: #d1d5db;
-          font-family: 'Noto Sans Khmer', sans-serif;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .popular-card .badge {
+        .popular-card-name {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
           background-color: #ffd700;
-          color: #000000;
-          font-size: 0.5rem;
+          color: #1a1a1a;
+          text-align: center;
+          padding: 3px 0;
+          font-size: 8px;
           font-weight: bold;
-          padding: 2px 6px;
-          border-radius: 4px;
-          display: inline-block;
+          font-family: 'Noto Sans Khmer', sans-serif;
         }
         @keyframes skeleton-loading {
           0% { background-position: 100% 50%; }
@@ -1028,19 +993,19 @@ const App: React.FC = () => {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, auto);
-          gap: 12px;
+          gap: 10px;
         }
         @media (max-width: 422px) {
           .skeleton-loader {
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 6px;
           }
         }
         .ph-item.skeleton-populer {
           background: linear-gradient(90deg, #2d3748 25%, #4a5568 37%, #2d3748 63%);
           background-size: 400% 100%;
           animation: skeleton-loading 1.4s ease infinite;
-          height: 76px;
+          height: 80px;
           border-radius: 10px;
           border: 2px solid #ffd700;
         }
@@ -1355,16 +1320,11 @@ const App: React.FC = () => {
               <div className="popular-header">
                 <div>
                   <h2 className="text-lg md:text-xl font-bold text-[#ffd700] khmer-font flex items-center gap-2">
-                    <lottie-player
-                      src="https://lottie.host/105ce5c3-7e93-4dbc-bfc8-6e4c816320e5/8kDtYqEr0W.json"
-                      speed="1"
-                      style={{ width: '20px', height: '20px' }}
-                      loop
-                      autoplay
-                      direction="1"
-                      mode="normal"
-                      background="transparent"
-                    ></lottie-player>
+                    <div className="popular-header-icon">
+                      <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                      </svg>
+                    </div>
                     POPULAR!
                   </h2>
                   <p className="text-[10px] text-[#d1d5db] leading-tight">Some of the most popular selected games today.</p>
@@ -1378,69 +1338,34 @@ const App: React.FC = () => {
               </div>
               <div className="popular-grid" style={{ display: loading ? 'none' : 'grid' }}>
                 {[
-                  {
-                    href: 'https://dinotopup.com/id/mlbb',
-                    imgSrc: '/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp',
-                    alt: 'Mobile Legends',
-                    title: 'Mobile Legends',
-                    subtitle: 'Mobile Legends 🇰🇭',
-                    gameId: 'mlbb',
-                  },
-                  {
-                    href: 'https://dinotopup.com/id/freefire_sgmy',
-                    imgSrc: '/assets/thumbnail/b4b03453964edb6a6a08a567435a86771fa2911e.jpeg',
-                    alt: 'Free Fire',
-                    title: 'Free Fire',
-                    subtitle: 'Free Fire 🇰🇭🇸🇬🇲🇾',
-                    gameId: 'freefire',
-                  },
-                  {
-                    href: 'https://dinotopup.com/id/mlbb_ph',
-                    imgSrc: '/assets/thumbnail/d6c204f673f89592f26fbcdb166086e852e64b33.png',
-                    alt: 'Mobile Legends PH',
-                    title: 'Mobile Legends PH',
-                    subtitle: 'Mobile Legends PH 🇰🇭',
-                    gameId: 'mlbb_ph',
-                  },
-                  {
-                    href: 'https://dinotopup.com/id/magicchessgogo',
-                    imgSrc: '/assets/thumbnail/82987c0a4173d13eecf8083cf96c8039e8e77a95.jpeg',
-                    alt: 'Magic Chess GoGo',
-                    title: 'Magic Chess GoGo',
-                    subtitle: 'Magic Chess GoGo 🇰🇭',
-                    gameId: 'magicchessgogo',
-                  },
+                  { gameId: 'mlbb', href: 'https://dinotopup.com/id/mlbb' },
+                  { gameId: 'freefire', href: 'https://dinotopup.com/id/freefire_sgmy' },
+                  { gameId: 'mlbb_ph', href: 'https://dinotopup.com/id/mlbb_ph' },
+                  { gameId: 'magicchessgogo', href: 'https://dinotopup.com/id/magicchessgogo' },
                 ].map((item, index) => (
                   <a
                     key={index}
                     href={item.href}
-                    className="popular-card"
+                    className={`popular-card ${gameConfig[item.gameId as keyof typeof gameConfig].enabled ? 'enabled' : 'disabled'}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      if (gameConfig[item.gameId as keyof typeof gameConfig]?.enabled) {
+                      if (gameConfig[item.gameId as keyof typeof gameConfig].enabled) {
                         setForm(prev => ({ ...prev, game: item.gameId as keyof typeof gameConfig }));
                         setShowTopUp(true);
                       } else {
-                        showNotification(`${item.title} is coming soon`, 'error');
+                        showNotification(`${gameConfig[item.gameId as keyof typeof gameConfig].name} is coming soon`, 'error');
                       }
                     }}
-                    aria-label={`Select ${item.title}`}
+                    aria-label={`Select ${gameConfig[item.gameId as keyof typeof gameConfig].name}`}
                   >
-                    <div className="flex-shrink-0 w-20 h-20 rounded-md overflow-hidden">
-                      <img
-                        src={item.imgSrc}
-                        alt={item.alt}
-                        className="w-full h-full object-cover"
-                        onError={(e) => (e.currentTarget.src = 'https://kiragamestore.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdhztk4abr%2Fimage%2Fupload%2Fv1753697266%2Fproducts%2Fivazuj0pq0zhrvujqnfp.png&w=384&q=75&dpl=dpl_ET82toPhxbv1P7PxmsrZSLqdx3XW')}
-                      />
-                    </div>
-                    <div className="game-info">
-                      <p className="game-title">{item.title}</p>
-                      <div className="flex gap-2">
-                        <span className="badge">NEW</span>
-                      </div>
-                      <p className="game-subtitle">{item.subtitle}</p>
-                    </div>
+                    <img
+                      src={gameConfig[item.gameId as keyof typeof gameConfig].image}
+                      alt={gameConfig[item.gameId as keyof typeof gameConfig].name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => (e.currentTarget.src = '/placeholder.svg?width=100&height=80')}
+                    />
+                    <div className="popular-card-name">{gameConfig[item.gameId as keyof typeof gameConfig].name}</div>
+                    {!gameConfig[item.gameId as keyof typeof gameConfig].enabled && <div className="coming-soon">Coming Soon</div>}
                   </a>
                 ))}
               </div>
