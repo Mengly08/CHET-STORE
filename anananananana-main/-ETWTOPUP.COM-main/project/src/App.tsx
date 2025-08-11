@@ -8,10 +8,8 @@ import { PopupBanner } from './components/PopupBanner';
 import { supabase } from './lib/supabase';
 import storeConfig from './lib/config';
 import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
-
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
-
 const Header = () => (
   <nav className="bg-[#f7d365] text-black p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
@@ -35,7 +33,6 @@ const Header = () => (
     </div>
   </nav>
 );
-
 const gameConfig = {
   mlbb: {
     name: 'Mobile Legends: Bang Bang (KH)',
@@ -83,7 +80,6 @@ const gameConfig = {
     enabled: false,
   },
 };
-
 const hardcodedProducts = [
   { id: 1, name: 'Weekly Pass', price: 1.34, diamonds: null, type: 'subscription', game: 'mlbb' },
   { id: 2, name: 'Weekly Pass x2', price: 2.75, diamonds: null, type: 'subscription', game: 'mlbb' },
@@ -100,7 +96,6 @@ const hardcodedProducts = [
   { id: 13, name: '565 DM', price: 6.95, diamonds: '565', type: 'diamonds', game: 'mlbb' },
   { id: 14, name: '600 DM', price: 7.50, diamonds: '600', type: 'diamonds', game: 'mlbb' },
 ];
-
 const diamondCombinations = {
   '86': { total: '86', breakdown: '86+0bonus' },
   '172': { total: '172', breakdown: '172+0bonus' },
@@ -125,7 +120,6 @@ const diamondCombinations = {
   '2637': { total: '2637', breakdown: '2195+442bonus' },
   '2810': { total: '2810', breakdown: '2195+615bonus' },
 };
-
 const App: React.FC = () => {
   const [form, setForm] = useState<TopUpForm>(() => {
     const savedForm = sessionStorage.getItem('customerInfo');
@@ -156,7 +150,6 @@ const App: React.FC = () => {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const blogBoxRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleBlogs, setVisibleBlogs] = useState<boolean[]>([false, false, false]);
-
   const formatItemDisplay = (product: GameProduct | null) => {
     if (!product) return 'None';
     const identifier = product.diamonds || product.name;
@@ -164,7 +157,6 @@ const App: React.FC = () => {
     if (!combo) return identifier;
     return combo.breakdown.endsWith('+0bonus') ? combo.total : `${combo.total} (${combo.breakdown})`;
   };
-
   useEffect(() => {
     const checkRoute = () => {
       const path = window.location.pathname;
@@ -177,13 +169,11 @@ const App: React.FC = () => {
     window.addEventListener('popstate', checkRoute);
     return () => window.removeEventListener('popstate', checkRoute);
   }, []);
-
   useEffect(() => {
     if (!isAdminRoute && !isResellerRoute) {
       fetchProducts(form.game);
     }
   }, [form.game, isAdminRoute, isResellerRoute]);
-
   useEffect(() => {
     if (form.userId || form.serverId) {
       sessionStorage.setItem('customerInfo', JSON.stringify({
@@ -194,13 +184,11 @@ const App: React.FC = () => {
       }));
     }
   }, [form.userId, form.serverId, form.game]);
-
   useEffect(() => {
     return () => {
       if (cooldownInterval) clearInterval(cooldownInterval);
     };
   }, [cooldownInterval]);
-
   useEffect(() => {
     const observers = blogBoxRefs.current.map((ref, index) => {
       if (ref) {
@@ -222,12 +210,10 @@ const App: React.FC = () => {
       }
       return null;
     });
-
     return () => {
       observers.forEach(observer => observer?.disconnect());
     };
   }, []);
-
   const startPaymentCooldown = () => {
     setPaymentCooldown(7);
     if (cooldownInterval) clearInterval(cooldownInterval);
@@ -242,12 +228,10 @@ const App: React.FC = () => {
     }, 1000);
     setCooldownInterval(interval);
   };
-
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
   };
-
   const fetchProducts = async (game: keyof typeof gameConfig) => {
     setLoading(true);
     try {
@@ -257,7 +241,6 @@ const App: React.FC = () => {
         .select('*')
         .order('id', { ascending: true });
       if (error) throw new Error(error.message);
-
       let transformedProducts: GameProduct[] = data.map(product => ({
         id: product.id,
         name: product.name,
@@ -270,7 +253,6 @@ const App: React.FC = () => {
         code: product.code || undefined,
         tagname: product.tagname || undefined,
       }));
-
       if (sessionStorage.getItem('jackstore_reseller_auth') === 'true') {
         const { data: resellerPrices, error: resellerError } = await supabase
           .from('reseller_prices')
@@ -283,7 +265,6 @@ const App: React.FC = () => {
           });
         }
       }
-
       setProducts(transformedProducts);
       if (form.product) {
         const updatedProduct = transformedProducts.find(p => p.id === form.product?.id);
@@ -299,7 +280,6 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
-
   const validateAccount = async () => {
     if (!form.userId || (gameConfig[form.game].requiresServerId && !form.serverId) || !['mlbb', 'mlbb_ph', 'magicchessgogo'].includes(form.game)) {
       showNotification('Please enter valid User ID and Server/Zone ID', 'error');
@@ -312,7 +292,6 @@ const App: React.FC = () => {
       const url = apiUrl.replace('{userId}', form.userId).replace('{serverId}', form.serverId);
       const response = await axios.get(url, { responseType: 'json' });
       let validationResult: MLBBValidationResponse;
-
       if (form.game === 'mlbb_ph') {
         const jsonResponse = response.data as { success: boolean; name?: string; message?: string };
         if (jsonResponse.success) {
@@ -347,7 +326,6 @@ const App: React.FC = () => {
       setValidating(false);
     }
   };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (paymentCooldown > 0) {
@@ -382,7 +360,6 @@ const App: React.FC = () => {
     const productIdentifier = form.product.code || form.product.diamonds || form.product.name;
     const format = gameConfig[form.game].requiresServerId ? `${form.userId} ${form.serverId} ${productIdentifier}` : `${form.userId} 0 ${productIdentifier}`;
     setOrderFormat(format);
-
     const now = new Date();
     const tranId = `2025${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}${String(now.getSeconds()).padStart(2, '0')}`;
     const paymentForm = document.getElementById('aba_merchant_request') as HTMLFormElement;
@@ -400,19 +377,16 @@ const App: React.FC = () => {
     paymentForm.submit();
     setShowCheckout(true);
   };
-
   const clearSavedInfo = () => {
     sessionStorage.removeItem('customerInfo');
     setForm({ userId: '', serverId: '', product: null, game: form.game, nickname: undefined });
     setValidationResult(null);
     showNotification('Saved info cleared', 'success');
   };
-
   const handleProductSelect = (product: GameProduct) => {
     setForm(prev => ({ ...prev, product }));
     showNotification(`${formatItemDisplay(product)} = $${product.price.toFixed(2)} Selected`, 'success');
   };
-
   if (isAdminRoute) {
     return (
       <Suspense fallback={
@@ -425,7 +399,6 @@ const App: React.FC = () => {
       </Suspense>
     );
   }
-
   if (isResellerRoute) {
     return (
       <Suspense fallback={
@@ -442,7 +415,6 @@ const App: React.FC = () => {
       </Suspense>
     );
   }
-
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col relative overflow-x-hidden font-khmer">
       <style>{`
@@ -874,6 +846,29 @@ const App: React.FC = () => {
             grid-template-columns: repeat(3, 1fr);
           }
         }
+        .telegram-floating-button {
+          position: fixed;
+          bottom: 28px;
+          right: 16px;
+          z-index: 1000;
+          background-color: #0088cc;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: opacity 0.3s ease;
+        }
+        .telegram-floating-button:hover {
+          opacity: 0.8;
+        }
+        .telegram-floating-button svg {
+          width: 32px;
+          height: 32px;
+          fill: #ffffff;
+        }
       `}</style>
       <Header />
       {notification && (
@@ -1160,7 +1155,7 @@ const App: React.FC = () => {
                   </div>
                   <ul className="social-group">
                     <li>
-                      <a href="https://web.facebook.com/netonlinegaming" aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="group">
+                      <a href="https://www.facebook.com/KvaiSellDiamond/" aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="group">
                         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
                           <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
@@ -1169,20 +1164,19 @@ const App: React.FC = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="https://t.me/netonlinegaming777" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
+                      <a href="https://t.me/kvaiselldiamond" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
                         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
                           <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"></path>
                           </svg>
                         </div>
                       </a>
                     </li>
                     <li>
-                      <a href="https://youtube.com/@netonlinegaming384?si=13O7ZzOUllQWmkNn" aria-label="YouTube" target="_blank" rel="noopener noreferrer" className="group">
+                      <a href="https://t.me/kvaiselldiamond" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
                         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
                           <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m10 15 5-3-5-3z"></path>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"></path>
                           </svg>
                         </div>
                       </a>
@@ -1243,25 +1237,25 @@ const App: React.FC = () => {
               <div className="blog-grid">
                 {[
                   {
-                    image: 'https://raw.githubusercontent.com/Mengly08/xnxx/refs/heads/main/Capture%20(1).jpg',
+                    image: 'https://raw.githubusercontent.com/Mengly08/pic/refs/heads/main/photo_2025-08-11_08-33-41.jpg',
                     alt: 'EVENTS',
                     title: 'KVAI STORE',
                     link: 'https://www.kvaitopup.com/',
-                    date: '19 វិច្ឆិកា 2024',
+                    date: 'contact us now',
                   },
                   {
-                    image: 'https://systopup.com/admin/uploads/687d132f1b27a.jpg',
+                    image: 'https://raw.githubusercontent.com/Mengly08/PICCCC/refs/heads/main/photo_2025-06-15_10-14-44.jpg',
                     alt: 'EVENTS',
-                    title: 'LOOKS AT THE NEW EVENT IS COMING',
+                    title: 'MORE ABOUT US',
                     link: 'https://www.kvaitopup.com/',
-                    date: '16 Jan 2025',
+                    date: 'contact us now',
                   },
                   {
-                    image: 'https://systopup.com/admin/uploads/687d3af08462c.jpg',
+                    image: 'https://raw.githubusercontent.com/Mengly08/pic/refs/heads/main/photo_2025-08-11_08-33-48.jpg',
                     alt: 'EVENTS',
-                    title: 'LETS TOPUP NEW EVENT IS COMING',
+                    title: 'ACCOUNT SELLER',
                     link: 'https://www.kvaitopup.com/',
-                    date: '20 Jan 2025',
+                    date: 'contact us now',
                   },
                 ].map((post, index) => (
                   <div
