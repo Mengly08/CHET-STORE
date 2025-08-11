@@ -8,8 +8,10 @@ import { PopupBanner } from './components/PopupBanner';
 import { supabase } from './lib/supabase';
 import storeConfig from './lib/config';
 import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
+
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
+
 const Header = () => (
   <nav className="bg-[#f7d365] text-black p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
@@ -33,6 +35,7 @@ const Header = () => (
     </div>
   </nav>
 );
+
 const gameConfig = {
   mlbb: {
     name: 'Mobile legend KH',
@@ -80,6 +83,7 @@ const gameConfig = {
     enabled: false,
   },
 };
+
 const hardcodedProducts = [
   { id: 1, name: 'Weekly Pass', price: 1.34, diamonds: null, type: 'subscription', game: 'mlbb' },
   { id: 2, name: 'Weekly Pass x2', price: 2.75, diamonds: null, type: 'subscription', game: 'mlbb' },
@@ -96,6 +100,7 @@ const hardcodedProducts = [
   { id: 13, name: '565 DM', price: 6.95, diamonds: '565', type: 'diamonds', game: 'mlbb' },
   { id: 14, name: '600 DM', price: 7.50, diamonds: '600', type: 'diamonds', game: 'mlbb' },
 ];
+
 const diamondCombinations = {
   '86': { total: '86', breakdown: '86+0bonus' },
   '172': { total: '172', breakdown: '172+0bonus' },
@@ -120,6 +125,7 @@ const diamondCombinations = {
   '2637': { total: '2637', breakdown: '2195+442bonus' },
   '2810': { total: '2810', breakdown: '2195+615bonus' },
 };
+
 const App: React.FC = () => {
   const [form, setForm] = useState<TopUpForm>(() => {
     const savedForm = sessionStorage.getItem('customerInfo');
@@ -150,6 +156,7 @@ const App: React.FC = () => {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const blogBoxRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleBlogs, setVisibleBlogs] = useState<boolean[]>([false, false, false]);
+
   const formatItemDisplay = (product: GameProduct | null) => {
     if (!product) return 'None';
     const identifier = product.diamonds || product.name;
@@ -157,6 +164,7 @@ const App: React.FC = () => {
     if (!combo) return identifier;
     return combo.breakdown.endsWith('+0bonus') ? combo.total : `${combo.total} (${combo.breakdown})`;
   };
+
   useEffect(() => {
     const checkRoute = () => {
       const path = window.location.pathname;
@@ -169,11 +177,13 @@ const App: React.FC = () => {
     window.addEventListener('popstate', checkRoute);
     return () => window.removeEventListener('popstate', checkRoute);
   }, []);
+
   useEffect(() => {
     if (!isAdminRoute && !isResellerRoute) {
       fetchProducts(form.game);
     }
   }, [form.game, isAdminRoute, isResellerRoute]);
+
   useEffect(() => {
     if (form.userId || form.serverId) {
       sessionStorage.setItem('customerInfo', JSON.stringify({
@@ -184,11 +194,13 @@ const App: React.FC = () => {
       }));
     }
   }, [form.userId, form.serverId, form.game]);
+
   useEffect(() => {
     return () => {
       if (cooldownInterval) clearInterval(cooldownInterval);
     };
   }, [cooldownInterval]);
+
   useEffect(() => {
     const observers = blogBoxRefs.current.map((ref, index) => {
       if (ref) {
@@ -214,6 +226,7 @@ const App: React.FC = () => {
       observers.forEach(observer => observer?.disconnect());
     };
   }, []);
+
   const startPaymentCooldown = () => {
     setPaymentCooldown(7);
     if (cooldownInterval) clearInterval(cooldownInterval);
@@ -228,10 +241,12 @@ const App: React.FC = () => {
     }, 1000);
     setCooldownInterval(interval);
   };
+
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
   };
+
   const fetchProducts = async (game: keyof typeof gameConfig) => {
     setLoading(true);
     try {
@@ -280,6 +295,7 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
+
   const validateAccount = async () => {
     if (!form.userId || (gameConfig[form.game].requiresServerId && !form.serverId) || !['mlbb', 'mlbb_ph', 'magicchessgogo'].includes(form.game)) {
       showNotification('Please enter valid User ID and Server/Zone ID', 'error');
@@ -326,6 +342,7 @@ const App: React.FC = () => {
       setValidating(false);
     }
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (paymentCooldown > 0) {
@@ -377,16 +394,19 @@ const App: React.FC = () => {
     paymentForm.submit();
     setShowCheckout(true);
   };
+
   const clearSavedInfo = () => {
     sessionStorage.removeItem('customerInfo');
     setForm({ userId: '', serverId: '', product: null, game: form.game, nickname: undefined });
     setValidationResult(null);
     showNotification('Saved info cleared', 'success');
   };
+
   const handleProductSelect = (product: GameProduct) => {
     setForm(prev => ({ ...prev, product }));
     showNotification(`${formatItemDisplay(product)} = $${product.price.toFixed(2)} Selected`, 'success');
   };
+
   if (isAdminRoute) {
     return (
       <Suspense fallback={
@@ -399,6 +419,7 @@ const App: React.FC = () => {
       </Suspense>
     );
   }
+
   if (isResellerRoute) {
     return (
       <Suspense fallback={
@@ -415,6 +436,7 @@ const App: React.FC = () => {
       </Suspense>
     );
   }
+
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col relative overflow-x-hidden font-khmer">
       <style>{`
