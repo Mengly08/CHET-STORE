@@ -1295,19 +1295,29 @@ const App: React.FC = () => {
                   </div>
                   <ul className="social-group">
                     <li>
-                      <a href="https://www.facebook.com/KvaiSellDiamond/" aria-label="Facebook" target="_blank" rel="noopener noreferrer" className="group">
+                      <a href="https://web.facebook.com/netonlinegaming" aria-label="facebook" target="_blank" rel="noopener noreferrer" className="group">
                         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
-                          <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-facebook w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                           </svg>
                         </div>
                       </a>
                     </li>
                     <li>
-                      <a href="https://t.me/kvaiselldiamond" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
+                      <a href="https://t.me/netonlinegaming777" aria-label="telegram" target="_blank" rel="noopener noreferrer" className="group">
                         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
-                          <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"></path>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-circle w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200">
+                            <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
+                          </svg>
+                        </div>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="https://youtube.com/@netonlinegaming384?si=13O7ZzOUllQWmkNn" aria-label="youtube" target="_blank" rel="noopener noreferrer" className="group">
+                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-youtube w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200">
+                            <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path>
+                            <path d="m10 15 5-3-5-3z"></path>
                           </svg>
                         </div>
                       </a>
