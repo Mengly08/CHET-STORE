@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, Suspense, lazy, useRef } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
@@ -9,7 +8,6 @@ import { PopupBanner } from './components/PopupBanner';
 import { supabase } from './lib/supabase';
 import storeConfig from './lib/config';
 import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
-
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
 
@@ -40,7 +38,7 @@ const Header = () => (
 const gameConfig = {
   mlbb: {
     name: 'Mobile legend KH',
-    image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2FUploads%2FImg_Resizer_20240801_2222_57312_4914487dd4.webp&w=750&q=75',
+    image: 'https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp',
     tableName: 'mlbb_products',
     apiUrl: 'https://api.vibolshop.com/api_reseller/checkid_mlbb.php?userid={userId}&zoneid={serverId}',
     requiresServerId: true,
@@ -48,7 +46,7 @@ const gameConfig = {
   },
   mlbb_ph: {
     name: 'Mobile legend PH',
-    image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2FUploads%2Fmlbb_ph_4ffb701419.webp&w=750&q=75',
+    image: 'https://dinotopup.com/assets/thumbnail/dbpsroyf1mso95otl5ds%20(1).webp',
     tableName: 'mlbb_ph_products',
     apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
     requiresServerId: true,
@@ -56,14 +54,14 @@ const gameConfig = {
   },
   freefire: {
     name: 'Free Fire',
-    image: 'https://play-lh.googleusercontent.com/WWcssdzTZvx7Fc84lfMpVuyMXg83_PwrfpgSBd0IID_IuupsYVYJ34S9R2_5x57gHQ',
+    image: 'https://play-lh.googleusercontent.com/sKh_B4ZLfu0jzqx9z98b2APe2rxDb8dIW-QqFHyS3cpzDK2Qq8tAbRAz3rXzOFtdAw',
     tableName: 'freefire_products',
     requiresServerId: false,
     enabled: true,
   },
   magicchessgogo: {
     name: 'Magic Chess GoGo',
-    image: 'https://kiragamestore.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdhztk4abr%2Fimage%2Fupload%2Fv1746748767%2Fproducts%2Fdssblzg5q8u6rfkd98ok.png&w=256&q=75',
+    image: 'https://dinotopup.com/assets/thumbnail/636752d662ac725bf1da0b5e9e813c9cff582086.jpeg',
     tableName: 'magicchessgogo_products',
     apiUrl: 'https://valid.ihsangan.com/mcgg?id={userId}&server={serverId}',
     requiresServerId: true,
@@ -265,7 +263,7 @@ const App: React.FC = () => {
         currency: product.currency,
         type: product.type as 'diamonds' | 'subscription' | 'special',
         game,
-        image: product.image || undefined,
+        image: product設立 || undefined,
         code: product.code || undefined,
         tagname: product.tagname || undefined,
       }));
@@ -694,7 +692,7 @@ const App: React.FC = () => {
           align-items: center;
           gap: 8px;
         }
-        .notification.success { border-left: 4px solid #22c55e; }
+        .notification.success { border-left: 4px solid #ffd700; }
         .notification.error { border-left: 4px solid #ef4444; }
         .blog-section {
           max-width: 422px;
@@ -896,7 +894,21 @@ const App: React.FC = () => {
         .popular-section {
           max-width: 422px;
           margin: 0 auto;
-          padding: 16px 16px 24px;
+          padding: 16px;
+          background: linear-gradient(180deg, #1f2937 0%, #121212 100%);
+          border-radius: 16px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+          position: relative;
+          overflow: hidden;
+        }
+        .popular-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(to right, #ffd700, #f9d43d);
         }
         .popular-header {
           display: flex;
@@ -909,75 +921,97 @@ const App: React.FC = () => {
           font-weight: bold;
           color: #ffd700;
           font-family: 'Noto Sans Khmer', sans-serif;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
         .popular-header p {
-          font-size: 0.75rem;
+          font-size: 0.65rem;
           color: #d1d5db;
           line-height: 1.2;
           font-family: 'Noto Sans Khmer', sans-serif;
         }
         .popular-grid {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 16px;
+          justify-content: center;
         }
         @media (min-width: 1024px) {
           .popular-grid {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
           }
         }
         .popular-card {
           display: flex;
           align-items: center;
-          background: linear-gradient(to right, #2a2a2a, #1a1a1a);
+          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
           border-radius: 12px;
           padding: 12px;
           gap: 12px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
           transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+          border: 2px solid #ffd700;
+          position: relative;
           overflow: hidden;
+          cursor: pointer;
         }
         .popular-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-          filter: brightness(110%);
+          transform: translateY(-6px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+          filter: brightness(120%);
+        }
+        .popular-card:active::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(255, 215, 0, 0.2);
+          pointer-events: none;
+          animation: fadeOut 0.3s ease forwards;
+        }
+        @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
         }
         .popular-card img {
-          width: 64px;
-          height: 64px;
+          width: 72px;
+          height: 72px;
           object-fit: cover;
-          border-radius: 8px;
+          border-radius: 10px;
           flex-shrink: 0;
+          border: 1px solid #ffd700;
         }
         .popular-card .game-info {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 4px;
+          max-width: calc(100% - 84px);
         }
         .popular-card .game-title {
-          font-size: 0.875rem;
+          font-size: 0.85rem;
           font-weight: 600;
           color: #ffffff;
           font-family: 'Noto Sans Khmer', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          max-width: 100%;
         }
         .popular-card .game-subtitle {
-          font-size: 0.75rem;
+          font-size: 0.7rem;
           color: #d1d5db;
           font-family: 'Noto Sans Khmer', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          max-width: 100%;
         }
         .popular-card .badge {
-          background-color: #22c55e;
+          background-color: #ffd700;
           color: #000000;
-          font-size: 0.625rem;
+          font-size: 0.6rem;
           font-weight: bold;
           padding: 2px 8px;
           border-radius: 4px;
@@ -989,20 +1023,21 @@ const App: React.FC = () => {
         }
         .skeleton-loader {
           display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 12px;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 16px;
         }
         @media (min-width: 1024px) {
           .skeleton-loader {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
           }
         }
         .ph-item.skeleton-populer {
           background: linear-gradient(90deg, #2d3748 25%, #4a5568 37%, #2d3748 63%);
           background-size: 400% 100%;
           animation: skeleton-loading 1.4s ease infinite;
-          height: 80px;
+          height: 96px;
           border-radius: 12px;
+          border: 2px solid #ffd700;
         }
       `}</style>
       <Header />
@@ -1300,10 +1335,8 @@ const App: React.FC = () => {
                     </li>
                     <li>
                       <a href="https://t.me/kvaiselldiamond" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
-                          <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
-                          </svg>
+                        <div className="bg-white/10 backdrop-blur-sm ripe="currentColor" strokeWidth="2">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
                         </div>
                       </a>
                     </li>
