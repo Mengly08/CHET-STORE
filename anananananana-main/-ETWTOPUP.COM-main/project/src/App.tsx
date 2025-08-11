@@ -1,4 +1,4 @@
-```tsx
+
 import React, { useState, useEffect, Suspense, lazy, useRef } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
