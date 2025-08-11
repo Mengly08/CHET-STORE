@@ -873,7 +873,7 @@ const App: React.FC = () => {
       <Header />
       {notification && (
         <div className={`notification ${notification.type}`}>
-          <CheckCircle2 className={`w-5 h-5 ${notification.type === 'success' ? 'text-green-500' : 'text-red-500'}`} />
+          <CheckCircle2 className={`w-5 h-5 ${notification.type === 'success' ? 'text-yellow-500' : 'text-red-500'}`} />
           <span className="text-sm khmer-font">{notification.message}</span>
         </div>
       )}
@@ -1001,7 +1001,7 @@ const App: React.FC = () => {
                     )}
                   </button>
                   {validationResult && (
-                    <div className={`flex items-center gap-2 text-sm mt-2 ${validationResult.status === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`flex items-center gap-2 text-sm mt-2 ${validationResult.status === 'success' ? 'text-yellow-400' : 'text-red-400'}`}>
                       <CheckCircle2 className="w-4 h-4" />
                       <span>{validationResult.status === 'success' ? validationResult.data?.userName : validationResult.message || 'Invalid user ID or server ID'}</span>
                     </div>
