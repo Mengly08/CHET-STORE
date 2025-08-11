@@ -1,3 +1,4 @@
+```tsx
 import React, { useState, useEffect, Suspense, lazy, useRef } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
@@ -8,8 +9,10 @@ import { PopupBanner } from './components/PopupBanner';
 import { supabase } from './lib/supabase';
 import storeConfig from './lib/config';
 import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
+
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
+
 const Header = () => (
   <nav className="bg-[#f7d365] text-black p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
@@ -33,10 +36,11 @@ const Header = () => (
     </div>
   </nav>
 );
+
 const gameConfig = {
   mlbb: {
     name: 'Mobile legend KH',
-    image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2Fuploads%2FImg_Resizer_20240801_2222_57312_4914487dd4.webp&w=750&q=75',
+    image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2FUploads%2FImg_Resizer_20240801_2222_57312_4914487dd4.webp&w=750&q=75',
     tableName: 'mlbb_products',
     apiUrl: 'https://api.vibolshop.com/api_reseller/checkid_mlbb.php?userid={userId}&zoneid={serverId}',
     requiresServerId: true,
@@ -44,7 +48,7 @@ const gameConfig = {
   },
   mlbb_ph: {
     name: 'Mobile legend PH',
-    image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2Fuploads%2Fmlbb_ph_4ffb701419.webp&w=750&q=75',
+    image: 'https://www.daddytopup.com/_next/image?url=https%3A%2F%2Fdaddy-cms.minttopup.xyz%2FUploads%2Fmlbb_ph_4ffb701419.webp&w=750&q=75',
     tableName: 'mlbb_ph_products',
     apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
     requiresServerId: true,
@@ -80,6 +84,7 @@ const gameConfig = {
     enabled: false,
   },
 };
+
 const hardcodedProducts = [
   { id: 1, name: 'Weekly Pass', price: 1.34, diamonds: null, type: 'subscription', game: 'mlbb' },
   { id: 2, name: 'Weekly Pass x2', price: 2.75, diamonds: null, type: 'subscription', game: 'mlbb' },
@@ -96,6 +101,7 @@ const hardcodedProducts = [
   { id: 13, name: '565 DM', price: 6.95, diamonds: '565', type: 'diamonds', game: 'mlbb' },
   { id: 14, name: '600 DM', price: 7.50, diamonds: '600', type: 'diamonds', game: 'mlbb' },
 ];
+
 const diamondCombinations = {
   '86': { total: '86', breakdown: '86+0bonus' },
   '172': { total: '172', breakdown: '172+0bonus' },
@@ -120,6 +126,7 @@ const diamondCombinations = {
   '2637': { total: '2637', breakdown: '2195+442bonus' },
   '2810': { total: '2810', breakdown: '2195+615bonus' },
 };
+
 const App: React.FC = () => {
   const [form, setForm] = useState<TopUpForm>(() => {
     const savedForm = sessionStorage.getItem('customerInfo');
@@ -150,6 +157,7 @@ const App: React.FC = () => {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const blogBoxRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleBlogs, setVisibleBlogs] = useState<boolean[]>([false, false, false]);
+
   const formatItemDisplay = (product: GameProduct | null) => {
     if (!product) return 'None';
     const identifier = product.diamonds || product.name;
@@ -157,6 +165,7 @@ const App: React.FC = () => {
     if (!combo) return identifier;
     return combo.breakdown.endsWith('+0bonus') ? combo.total : `${combo.total} (${combo.breakdown})`;
   };
+
   useEffect(() => {
     const checkRoute = () => {
       const path = window.location.pathname;
@@ -169,11 +178,13 @@ const App: React.FC = () => {
     window.addEventListener('popstate', checkRoute);
     return () => window.removeEventListener('popstate', checkRoute);
   }, []);
+
   useEffect(() => {
     if (!isAdminRoute && !isResellerRoute) {
       fetchProducts(form.game);
     }
   }, [form.game, isAdminRoute, isResellerRoute]);
+
   useEffect(() => {
     if (form.userId || form.serverId) {
       sessionStorage.setItem('customerInfo', JSON.stringify({
@@ -184,11 +195,13 @@ const App: React.FC = () => {
       }));
     }
   }, [form.userId, form.serverId, form.game]);
+
   useEffect(() => {
     return () => {
       if (cooldownInterval) clearInterval(cooldownInterval);
     };
   }, [cooldownInterval]);
+
   useEffect(() => {
     const observers = blogBoxRefs.current.map((ref, index) => {
       if (ref) {
@@ -214,6 +227,7 @@ const App: React.FC = () => {
       observers.forEach(observer => observer?.disconnect());
     };
   }, []);
+
   const startPaymentCooldown = () => {
     setPaymentCooldown(7);
     if (cooldownInterval) clearInterval(cooldownInterval);
@@ -228,10 +242,12 @@ const App: React.FC = () => {
     }, 1000);
     setCooldownInterval(interval);
   };
+
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 3000);
   };
+
   const fetchProducts = async (game: keyof typeof gameConfig) => {
     setLoading(true);
     try {
@@ -280,6 +296,7 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
+
   const validateAccount = async () => {
     if (!form.userId || (gameConfig[form.game].requiresServerId && !form.serverId) || !['mlbb', 'mlbb_ph', 'magicchessgogo'].includes(form.game)) {
       showNotification('Please enter valid User ID and Server/Zone ID', 'error');
@@ -326,6 +343,7 @@ const App: React.FC = () => {
       setValidating(false);
     }
   };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (paymentCooldown > 0) {
@@ -377,16 +395,19 @@ const App: React.FC = () => {
     paymentForm.submit();
     setShowCheckout(true);
   };
+
   const clearSavedInfo = () => {
     sessionStorage.removeItem('customerInfo');
     setForm({ userId: '', serverId: '', product: null, game: form.game, nickname: undefined });
     setValidationResult(null);
     showNotification('Saved info cleared', 'success');
   };
+
   const handleProductSelect = (product: GameProduct) => {
     setForm(prev => ({ ...prev, product }));
     showNotification(`${formatItemDisplay(product)} = $${product.price.toFixed(2)} Selected`, 'success');
   };
+
   if (isAdminRoute) {
     return (
       <Suspense fallback={
@@ -399,6 +420,7 @@ const App: React.FC = () => {
       </Suspense>
     );
   }
+
   if (isResellerRoute) {
     return (
       <Suspense fallback={
@@ -415,6 +437,7 @@ const App: React.FC = () => {
       </Suspense>
     );
   }
+
   return (
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col relative overflow-x-hidden font-khmer">
       <style>{`
@@ -869,6 +892,97 @@ const App: React.FC = () => {
           height: 32px;
           fill: #ffffff;
         }
+        /* Styles for Popular Section */
+        .container {
+          max-width: 422px;
+          margin: 0 auto;
+          padding: 0 16px;
+        }
+        .mb-5 { margin-bottom: 20px; }
+        .text-lg { font-size: 1.125rem; }
+        .font-semibold { font-weight: 600; }
+        .leading-relaxed { line-height: 1.625; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .flex { display: flex; }
+        .pl-6 { padding-left: 24px; }
+        .text-xs { font-size: 0.75rem; }
+        .skeleton-loader {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 8px;
+        }
+        @media (min-width: 768px) {
+          .skeleton-loader { gap: 16px; }
+        }
+        @media (min-width: 1024px) {
+          .skeleton-loader {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        .ph-item.skeleton-populer {
+          background: linear-gradient(90deg, #2d3748 25%, #4a5568 37%, #2d3748 63%);
+          background-size: 400% 100%;
+          animation: skeleton-loading 1.4s ease infinite;
+          height: 80px;
+          border-radius: 12px;
+        }
+        @keyframes skeleton-loading {
+          0% { background-position: 100% 50%; }
+          100% { background-position: 0 50%; }
+        }
+        .bg-nvd { background: none; }
+        .neverzoom { transition: none; }
+        .gap-x-1\\.5 { gap: 6px; }
+        .rounded-xl { border-radius: 12px; }
+        .bg-murky-600 { background-color: #4b5563; }
+        .p-1\\.5 { padding: 6px; }
+        .duration-300 { transition-duration: 300ms; }
+        .ease-in-out { transition-timing-function: ease-in-out; }
+        .hover\\:shadow-2xl:hover { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+        .hover\\:ring-2:hover { --tw-ring-offset-width: 2px; }
+        .hover\\:ring-primary-500:hover { --tw-ring-color: #3b82f6; }
+        .hover\\:ring-offset-2:hover { --tw-ring-offset-width: 2px; }
+        .hover\\:ring-offset-murky-800:hover { --tw-ring-offset-color: #1f2937; }
+        @media (min-width: 768px) {
+          .md\\:gap-x-3 { gap: 12px; }
+          .md\\:rounded-2xl { border-radius: 16px; }
+          .md\\:p-3 { padding: 12px; }
+        }
+        .bg-murky-800 { background-color: #1f2937; }
+        .aspect-square { aspect-ratio: 1 / 1; }
+        .h-14 { height: 56px; }
+        .w-14 { width: 56px; }
+        .rounded-lg { border-radius: 8px; }
+        .\\!object-cover { object-fit: cover !important; }
+        .\\!object-center { object-position: center !important; }
+        .ring-1 { --tw-ring-offset-width: 1px; }
+        .ring-murky-600 { --tw-ring-color: #4b5563; }
+        @media (min-width: 768px) {
+          .md\\:h-20 { height: 80px; }
+          .md\\:w-20 { width: 80px; }
+          .md\\:rounded-xl { border-radius: 12px; }
+        }
+        .w-full { width: 100%; }
+        .flex-col { flex-direction: column; }
+        .w-\\[100px\\] { width: 100px; }
+        .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .text-xxs { font-size: 0.625rem; }
+        @media (min-width: 640px) {
+          .sm\\:w-\\[200px\\] { width: 200px; }
+        }
+        @media (min-width: 768px) {
+          .md\\:w-\\[275px\\] { width: 275px; }
+          .md\\:text-base { font-size: 1rem; }
+          .md\\:text-sm { font-size: 0.875rem; }
+        }
+        .mt-3 { margin-top: 12px; }
+        .gap-3 { gap: 12px; }
+        @media (min-width: 768px) {
+          .md\\:gap-4 { gap: 16px; }
+        }
+        @media (min-width: 1024px) {
+          .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
       `}</style>
       <Header />
       {notification && (
@@ -1183,6 +1297,97 @@ const App: React.FC = () => {
                     </li>
                   </ul>
                 </div>
+              </div>
+            </div>
+            {/* Popular Section */}
+            <div className="container">
+              <div className="mb-5">
+                <h3 className="text-lg font-semibold leading-relaxed tracking-wider flex items-center gap-2">
+                  <lottie-player
+                    src="https://lottie.host/105ce5c3-7e93-4dbc-bfc8-6e4c816320e5/8kDtYqEr0W.json"
+                    speed="1"
+                    style={{ width: '25px', height: '25px' }}
+                    loop
+                    autoplay
+                    direction="1"
+                    mode="normal"
+                    background="transparent"
+                  ></lottie-player>
+                  POPULAR!
+                </h3>
+                <p className="pl-6 text-xs">Some of the most popular selected products today.</p>
+              </div>
+              <div id="skeleton-loader" className="skeleton-loader grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-3 mt-3" style={{ display: 'none' }}>
+                <div className="ph-item skeleton-populer"></div>
+                <div className="ph-item skeleton-populer"></div>
+                <div className="ph-item skeleton-populer"></div>
+                <div className="ph-item skeleton-populer"></div>
+              </div>
+              <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 mt-3" id="populer">
+                {[
+                  {
+                    href: 'https://dinotopup.com/id/mlbb',
+                    imgSrc: '/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp',
+                    alt: 'Mobile Legends',
+                    title: 'Mobile Legends',
+                    subtitle: 'Mobile Legends 🇰🇭',
+                    gameId: 'mlbb',
+                  },
+                  {
+                    href: 'https://dinotopup.com/id/freefire_sgmy',
+                    imgSrc: '/assets/thumbnail/b4b03453964edb6a6a08a567435a86771fa2911e.jpeg',
+                    alt: 'Free Fire',
+                    title: 'Free Fire',
+                    subtitle: 'Free Fire 🇰🇭🇸🇬🇲🇾',
+                    gameId: 'freefire',
+                  },
+                  {
+                    href: 'https://dinotopup.com/id/mlbb_ph',
+                    imgSrc: '/assets/thumbnail/d6c204f673f89592f26fbcdb166086e852e64b33.png',
+                    alt: 'Mobile Legends PH',
+                    title: 'Mobile Legends PH',
+                    subtitle: 'Mobile Legends PH 🇰🇭',
+                    gameId: 'mlbb_ph',
+                  },
+                  {
+                    href: 'https://dinotopup.com/id/magicchessgogo',
+                    imgSrc: '/assets/thumbnail/82987c0a4173d13eecf8083cf96c8039e8e77a95.jpeg',
+                    alt: 'Magic Chess GoGo',
+                    title: 'Magic Chess GoGo',
+                    subtitle: 'Magic Chess GoGo 🇰🇭',
+                    gameId: 'magicchessgogo',
+                  },
+                ].map((item, index) => (
+                  <a
+                    key={index}
+                    href={item.href}
+                    className="melpaSlideUp"
+                    style={{ animationDelay: '0s' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (gameConfig[item.gameId as keyof typeof gameConfig]?.enabled) {
+                        setForm(prev => ({ ...prev, game: item.gameId as keyof typeof gameConfig }));
+                        setShowTopUp(true);
+                      } else {
+                        showNotification(`${item.title} is coming soon`, 'error');
+                      }
+                    }}
+                    aria-label={`Select ${item.title}`}
+                  >
+                    <div className="bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800">
+                      <img
+                        src={item.imgSrc}
+                        className="aspect-square h-14 w-14 rounded-lg !object-cover !object-center ring-1 ring-murky-600 md:h-20 md:w-20 md:rounded-xl"
+                        style={{ color: 'transparent' }}
+                        alt={item.alt}
+                      />
+                      <div className="relative flex w-full flex-col">
+                        <h2 className="w-[100px] truncate text-xxs font-semibold sm:w-[200px] md:w-[275px] md:text-base">{item.title}</h2>
+                        <p className="text-xxs md:text-sm">{item.subtitle}</p>
+                      </div>
+                    </div>
+                  </a>
+                ))}
               </div>
             </div>
             <h2 className="text-md font-bold text-[#ffd700] my-2 khmer-font">Popular Games</h2>
