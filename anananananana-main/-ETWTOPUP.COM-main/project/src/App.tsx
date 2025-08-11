@@ -1,4 +1,4 @@
-
+```tsx
 import React, { useState, useEffect, Suspense, lazy, useRef } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
@@ -892,27 +892,105 @@ const App: React.FC = () => {
           height: 32px;
           fill: #ffffff;
         }
-        /* Styles for Popular Section */
-        .container {
+        /* Enhanced Styles for Popular Section */
+        .popular-section {
           max-width: 422px;
           margin: 0 auto;
-          padding: 0 16px;
+          padding: 16px 16px 24px;
         }
-        .mb-5 { margin-bottom: 20px; }
-        .text-lg { font-size: 1.125rem; }
-        .font-semibold { font-weight: 600; }
-        .leading-relaxed { line-height: 1.625; }
-        .tracking-wider { letter-spacing: 0.05em; }
-        .flex { display: flex; }
-        .pl-6 { padding-left: 24px; }
-        .text-xs { font-size: 0.75rem; }
+        .popular-header {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 16px;
+        }
+        .popular-header h2 {
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: #ffd700;
+          font-family: 'Noto Sans Khmer', sans-serif;
+        }
+        .popular-header p {
+          font-size: 0.75rem;
+          color: #d1d5db;
+          line-height: 1.2;
+          font-family: 'Noto Sans Khmer', sans-serif;
+        }
+        .popular-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        @media (min-width: 1024px) {
+          .popular-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+        .popular-card {
+          display: flex;
+          align-items: center;
+          background: linear-gradient(to right, #2a2a2a, #1a1a1a);
+          border-radius: 12px;
+          padding: 12px;
+          gap: 12px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+          overflow: hidden;
+        }
+        .popular-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+          filter: brightness(110%);
+        }
+        .popular-card img {
+          width: 64px;
+          height: 64px;
+          object-fit: cover;
+          border-radius: 8px;
+          flex-shrink: 0;
+        }
+        .popular-card .game-info {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+        .popular-card .game-title {
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: #ffffff;
+          font-family: 'Noto Sans Khmer', sans-serif;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+        .popular-card .game-subtitle {
+          font-size: 0.75rem;
+          color: #d1d5db;
+          font-family: 'Noto Sans Khmer', sans-serif;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 100%;
+        }
+        .popular-card .badge {
+          background-color: #22c55e;
+          color: #000000;
+          font-size: 0.625rem;
+          font-weight: bold;
+          padding: 2px 8px;
+          border-radius: 4px;
+          display: inline-block;
+        }
+        @keyframes skeleton-loading {
+          0% { background-position: 100% 50%; }
+          100% { background-position: 0 50%; }
+        }
         .skeleton-loader {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
-        }
-        @media (min-width: 768px) {
-          .skeleton-loader { gap: 16px; }
+          gap: 12px;
         }
         @media (min-width: 1024px) {
           .skeleton-loader {
@@ -925,63 +1003,6 @@ const App: React.FC = () => {
           animation: skeleton-loading 1.4s ease infinite;
           height: 80px;
           border-radius: 12px;
-        }
-        @keyframes skeleton-loading {
-          0% { background-position: 100% 50%; }
-          100% { background-position: 0 50%; }
-        }
-        .bg-nvd { background: none; }
-        .neverzoom { transition: none; }
-        .gap-x-1\\.5 { gap: 6px; }
-        .rounded-xl { border-radius: 12px; }
-        .bg-murky-600 { background-color: #4b5563; }
-        .p-1\\.5 { padding: 6px; }
-        .duration-300 { transition-duration: 300ms; }
-        .ease-in-out { transition-timing-function: ease-in-out; }
-        .hover\\:shadow-2xl:hover { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
-        .hover\\:ring-2:hover { --tw-ring-offset-width: 2px; }
-        .hover\\:ring-primary-500:hover { --tw-ring-color: #3b82f6; }
-        .hover\\:ring-offset-2:hover { --tw-ring-offset-width: 2px; }
-        .hover\\:ring-offset-murky-800:hover { --tw-ring-offset-color: #1f2937; }
-        @media (min-width: 768px) {
-          .md\\:gap-x-3 { gap: 12px; }
-          .md\\:rounded-2xl { border-radius: 16px; }
-          .md\\:p-3 { padding: 12px; }
-        }
-        .bg-murky-800 { background-color: #1f2937; }
-        .aspect-square { aspect-ratio: 1 / 1; }
-        .h-14 { height: 56px; }
-        .w-14 { width: 56px; }
-        .rounded-lg { border-radius: 8px; }
-        .\\!object-cover { object-fit: cover !important; }
-        .\\!object-center { object-position: center !important; }
-        .ring-1 { --tw-ring-offset-width: 1px; }
-        .ring-murky-600 { --tw-ring-color: #4b5563; }
-        @media (min-width: 768px) {
-          .md\\:h-20 { height: 80px; }
-          .md\\:w-20 { width: 80px; }
-          .md\\:rounded-xl { border-radius: 12px; }
-        }
-        .w-full { width: 100%; }
-        .flex-col { flex-direction: column; }
-        .w-\\[100px\\] { width: 100px; }
-        .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .text-xxs { font-size: 0.625rem; }
-        @media (min-width: 640px) {
-          .sm\\:w-\\[200px\\] { width: 200px; }
-        }
-        @media (min-width: 768px) {
-          .md\\:w-\\[275px\\] { width: 275px; }
-          .md\\:text-base { font-size: 1rem; }
-          .md\\:text-sm { font-size: 0.875rem; }
-        }
-        .mt-3 { margin-top: 12px; }
-        .gap-3 { gap: 12px; }
-        @media (min-width: 768px) {
-          .md\\:gap-4 { gap: 16px; }
-        }
-        @media (min-width: 1024px) {
-          .lg\\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
       `}</style>
       <Header />
@@ -1299,31 +1320,32 @@ const App: React.FC = () => {
                 </div>
               </div>
             </div>
-            {/* Popular Section */}
-            <div className="container">
-              <div className="mb-5">
-                <h3 className="text-lg font-semibold leading-relaxed tracking-wider flex items-center gap-2">
-                  <lottie-player
-                    src="https://lottie.host/105ce5c3-7e93-4dbc-bfc8-6e4c816320e5/8kDtYqEr0W.json"
-                    speed="1"
-                    style={{ width: '25px', height: '25px' }}
-                    loop
-                    autoplay
-                    direction="1"
-                    mode="normal"
-                    background="transparent"
-                  ></lottie-player>
-                  POPULAR!
-                </h3>
-                <p className="pl-6 text-xs">Some of the most popular selected products today.</p>
+            <section className="popular-section">
+              <div className="popular-header">
+                <div>
+                  <h2 className="text-lg md:text-xl font-bold text-[#ffd700] khmer-font flex items-center gap-2">
+                    <lottie-player
+                      src="https://lottie.host/105ce5c3-7e93-4dbc-bfc8-6e4c816320e5/8kDtYqEr0W.json"
+                      speed="1"
+                      style={{ width: '25px', height: '25px' }}
+                      loop
+                      autoplay
+                      direction="1"
+                      mode="normal"
+                      background="transparent"
+                    ></lottie-player>
+                    POPULAR!
+                  </h2>
+                  <p className="text-[10px] text-gray-300 leading-tight">Some of the most popular selected products today.</p>
+                </div>
               </div>
-              <div id="skeleton-loader" className="skeleton-loader grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-3 mt-3" style={{ display: 'none' }}>
+              <div id="skeleton-loader" className="skeleton-loader" style={{ display: loading ? 'grid' : 'none' }}>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
               </div>
-              <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-3 mt-3" id="populer">
+              <div className="popular-grid" style={{ display: loading ? 'none' : 'grid' }}>
                 {[
                   {
                     href: 'https://dinotopup.com/id/mlbb',
@@ -1361,8 +1383,7 @@ const App: React.FC = () => {
                   <a
                     key={index}
                     href={item.href}
-                    className="melpaSlideUp"
-                    style={{ animationDelay: '0s' }}
+                    className="popular-card"
                     onClick={(e) => {
                       e.preventDefault();
                       if (gameConfig[item.gameId as keyof typeof gameConfig]?.enabled) {
@@ -1374,22 +1395,25 @@ const App: React.FC = () => {
                     }}
                     aria-label={`Select ${item.title}`}
                   >
-                    <div className="bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800">
+                    <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden">
                       <img
                         src={item.imgSrc}
-                        className="aspect-square h-14 w-14 rounded-lg !object-cover !object-center ring-1 ring-murky-600 md:h-20 md:w-20 md:rounded-xl"
-                        style={{ color: 'transparent' }}
                         alt={item.alt}
+                        className="w-full h-full object-cover"
+                        onError={(e) => (e.currentTarget.src = '/placeholder.svg?width=64&height=64')}
                       />
-                      <div className="relative flex w-full flex-col">
-                        <h2 className="w-[100px] truncate text-xxs font-semibold sm:w-[200px] md:w-[275px] md:text-base">{item.title}</h2>
-                        <p className="text-xxs md:text-sm">{item.subtitle}</p>
+                    </div>
+                    <div className="game-info">
+                      <p className="game-title">{item.title}</p>
+                      <div className="flex gap-2">
+                        <span className="badge">NEW</span>
                       </div>
+                      <p className="game-subtitle">{item.subtitle}</p>
                     </div>
                   </a>
                 ))}
               </div>
-            </div>
+            </section>
             <h2 className="text-md font-bold text-[#ffd700] my-2 khmer-font">Popular Games</h2>
             <div className="game-container">
               {Object.entries(gameConfig).slice(0, 3).map(([gameId, { name, image, enabled }]) => (
