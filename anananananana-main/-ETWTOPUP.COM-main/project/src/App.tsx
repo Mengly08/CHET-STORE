@@ -35,7 +35,7 @@ const Header = () => (
 );
 const gameConfig = {
   mlbb: {
-    name: 'Mobile legend KH',
+    name: 'Mobile Legends KH',
     image: 'https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp',
     tableName: 'mlbb_products',
     apiUrl: 'https://api.vibolshop.com/api_reseller/checkid_mlbb.php?userid={userId}&zoneid={serverId}',
@@ -43,7 +43,7 @@ const gameConfig = {
     enabled: true,
   },
   mlbb_ph: {
-    name: 'Mobile Legends PH',
+    name: 'Mobile Legendss PH',
     image: 'https://dinotopup.com/assets/thumbnail/dbpsroyf1mso95otl5ds%20(1).webp',
     tableName: 'mlbb_ph_products',
     apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
@@ -1389,9 +1389,9 @@ const App: React.FC = () => {
               </div>
               <div className="popular-grid grid grid-cols-2 gap-3 md:gap-4 mt-3" style={{ display: loading ? 'none' : 'grid' }}>
                 {[
-                  { gameId: 'mlbb', href: 'https://dinotopup.com/id/mlbb', title: 'Mobile Legends', subtitle: 'Mobile Legends 🇰🇭' },
+                  { gameId: 'mlbb', href: 'https://dinotopup.com/id/mlbb', title: 'Mobile Legendss', subtitle: 'Mobile Legendss 🇰🇭' },
                   { gameId: 'freefire', href: 'https://dinotopup.com/id/freefire_sgmy', title: 'Free Fire', subtitle: 'Free Fire 🇰🇭🇸🇬🇲🇾' },
-                  { gameId: 'mlbb_ph', href: 'https://dinotopup.com/id/mlbb_ph', title: 'Mobile Legends PH', subtitle: 'Mobile Legends PH 🇰🇭' },
+                  { gameId: 'mlbb_ph', href: 'https://dinotopup.com/id/mlbb_ph', title: 'Mobile Legendss PH', subtitle: 'Mobile Legendss PH 🇰🇭' },
                   { gameId: 'magicchessgogo', href: 'https://dinotopup.com/id/magicchessgogo', title: 'Magic Chess GoGo', subtitle: 'Magic Chess GoGo 🇰🇭' },
                 ].map((item, index) => (
                   <a
