@@ -8,10 +8,8 @@ import { PopupBanner } from './components/PopupBanner';
 import { supabase } from './lib/supabase';
 import storeConfig from './lib/config';
 import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
-
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
-
 const Header = () => (
   <nav className="bg-[#f7d365] text-black p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
@@ -35,7 +33,6 @@ const Header = () => (
     </div>
   </nav>
 );
-
 const gameConfig = {
   mlbb: {
     name: 'Mobile legend KH',
@@ -83,7 +80,6 @@ const gameConfig = {
     enabled: false,
   },
 };
-
 const hardcodedProducts = [
   { id: 1, name: 'Weekly Pass', price: 1.34, diamonds: null, type: 'subscription', game: 'mlbb' },
   { id: 2, name: 'Weekly Pass x2', price: 2.75, diamonds: null, type: 'subscription', game: 'mlbb' },
@@ -100,7 +96,6 @@ const hardcodedProducts = [
   { id: 13, name: '565 DM', price: 6.95, diamonds: '565', type: 'diamonds', game: 'mlbb' },
   { id: 14, name: '600 DM', price: 7.50, diamonds: '600', type: 'diamonds', game: 'mlbb' },
 ];
-
 const diamondCombinations = {
   '86': { total: '86', breakdown: '86+0bonus' },
   '172': { total: '172', breakdown: '172+0bonus' },
@@ -125,7 +120,6 @@ const diamondCombinations = {
   '2637': { total: '2637', breakdown: '2195+442bonus' },
   '2810': { total: '2810', breakdown: '2195+615bonus' },
 };
-
 const App: React.FC = () => {
   const [form, setForm] = useState<TopUpForm>(() => {
     const savedForm = sessionStorage.getItem('customerInfo');
@@ -932,20 +926,11 @@ const App: React.FC = () => {
           line-height: 1.2;
           font-family: 'Noto Sans Khmer', sans-serif;
         }
-        .popular-header-icon {
-          width: 20px;
-          height: 20px;
-          background-color: #ffd700;
-          border-radius: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
         .popular-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, auto);
-          gap: 2px;
+          gap: 3px;
         }
         @media (min-width: 640px) {
           .popular-grid {
@@ -953,36 +938,94 @@ const App: React.FC = () => {
           }
         }
         .popular-card {
-          position: relative;
-          border-radius: 10px;
-          overflow: hidden;
-          background: #333;
-          width: 100%;
-          height: 80px;
-          cursor: pointer;
-          transition: transform 0.2s;
-          border: 2px solid #ffd700;
-        }
-        .popular-card.enabled:hover {
-          transform: scale(1.05);
+          display: flex;
+          align-items: center;
+          gap-x-1.5;
+          rounded-xl;
+          bg-murky-600;
+          p-1.5;
+          duration-300;
+          ease-in-out;
+          hover:shadow-2xl;
+          hover:ring-2;
+          hover:ring-primary-500;
+          hover:ring-offset-2;
+          hover:ring-offset-murky-800;
+          md:gap-x-3;
+          md:rounded-2xl;
+          md:p-3;
+          bg-murky-800;
         }
         .popular-card img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
+          aspect-square;
+          h-14;
+          w-14;
+          rounded-lg;
+          !object-cover;
+          !object-center;
+          ring-1;
+          ring-murky-600;
+          md:h-20;
+          md:w-20;
+          md:rounded-xl;
         }
-        .popular-card-name {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          background-color: #ffd700;
-          color: #1a1a1a;
-          text-align: center;
-          padding: 3px 0;
-          font-size: 8px;
-          font-weight: bold;
-          font-family: 'Noto Sans Khmer', sans-serif;
+        .popular-card .relative {
+          flex;
+          w-full;
+          flex-col;
+        }
+        .popular-card h2 {
+          w-[100px];
+          truncate;
+          text-xxs;
+          font-semibold;
+          sm:w-[200px];
+          md:w-[275px];
+          md:text-base;
+        }
+        .popular-card p {
+          text-xxs;
+          md:text-sm;
+        }
+        .melpaSlideUp {
+          animation-delay: 0s;
+        }
+        @keyframes melpaSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(50%);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .melpaSlideUp {
+          animation: melpaSlideUp 0.5s ease-out forwards;
+        }
+        .bg-nvd {
+          background: transparent;
+        }
+        .neverzoom {
+          pointer-events: none;
+        }
+        .bg-murky-600 {
+          background-color: #1a1a1a;
+        }
+        .bg-murky-800 {
+          background-color: #121212;
+        }
+        .ring-murky-600 {
+          --tw-ring-color: #1a1a1a;
+        }
+        .hover\:ring-offset-murky-800:hover {
+          --tw-ring-offset-color: #121212;
+        }
+        .hover\:ring-primary-500:hover {
+          --tw-ring-color: #ffd700;
+        }
+        .text-xxs {
+          font-size: 0.625rem;
         }
         @keyframes skeleton-loading {
           0% { background-position: 100% 50%; }
@@ -1345,36 +1388,38 @@ const App: React.FC = () => {
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
               </div>
-              <div className="popular-grid" style={{ display: loading ? 'none' : 'grid' }}>
+              <div className="popular-grid grid grid-cols-2 gap-3 md:gap-4 mt-3" style={{ display: loading ? 'none' : 'grid' }}>
                 {[
-                  { gameId: 'mlbb', href: 'https://dinotopup.com/id/mlbb' },
-                  { gameId: 'freefire', href: 'https://dinotopup.com/id/freefire_sgmy' },
-                  { gameId: 'mlbb_ph', href: 'https://dinotopup.com/id/mlbb_ph' },
-                  { gameId: 'magicchessgogo', href: 'https://dinotopup.com/id/magicchessgogo' },
+                  { gameId: 'mlbb', href: 'https://dinotopup.com/id/mlbb', title: 'Mobile Legends', subtitle: 'Mobile Legends 🇰🇭' },
+                  { gameId: 'freefire', href: 'https://dinotopup.com/id/freefire_sgmy', title: 'Free Fire', subtitle: 'Free Fire 🇰🇭🇸🇬🇲🇾' },
+                  { gameId: 'mlbb_ph', href: 'https://dinotopup.com/id/mlbb_ph', title: 'Mobile Legends PH', subtitle: 'Mobile Legends PH 🇰🇭' },
+                  { gameId: 'magicchessgogo', href: 'https://dinotopup.com/id/magicchessgogo', title: 'Magic Chess GoGo', subtitle: 'Magic Chess GoGo 🇰🇭' },
                 ].map((item, index) => (
                   <a
                     key={index}
                     href={item.href}
-                    className={`popular-card ${gameConfig[item.gameId as keyof typeof gameConfig].enabled ? 'enabled' : 'disabled'}`}
+                    className="melpaSlideUp bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800"
+                    style={{ animationDelay: '0s' }}
                     onClick={(e) => {
                       e.preventDefault();
                       if (gameConfig[item.gameId as keyof typeof gameConfig].enabled) {
                         setForm(prev => ({ ...prev, game: item.gameId as keyof typeof gameConfig }));
                         setShowTopUp(true);
                       } else {
-                        showNotification(`${gameConfig[item.gameId as keyof typeof gameConfig].name} is coming soon`, 'error');
+                        showNotification(`${item.title} is coming soon`, 'error');
                       }
                     }}
-                    aria-label={`Select ${gameConfig[item.gameId as keyof typeof gameConfig].name}`}
+                    aria-label={`Select ${item.title}`}
                   >
                     <img
                       src={gameConfig[item.gameId as keyof typeof gameConfig].image}
-                      alt={gameConfig[item.gameId as keyof typeof gameConfig].name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => (e.currentTarget.src = '/placeholder.svg?width=100&height=80')}
+                      className="aspect-square h-14 w-14 rounded-lg !object-cover !object-center ring-1 ring-murky-600 md:h-20 md:w-20 md:rounded-xl"
+                      alt={item.title}
                     />
-                    <div className="popular-card-name">{gameConfig[item.gameId as keyof typeof gameConfig].name}</div>
-                    {!gameConfig[item.gameId as keyof typeof gameConfig].enabled && <div className="coming-soon">Coming Soon</div>}
+                    <div className="relative flex w-full flex-col">
+                      <h2 className="w-[100px] truncate text-xxs font-semibold sm:w-[200px] md:w-[275px] md:text-base">{item.title}</h2>
+                      <p className="text-xxs md:text-sm">{item.subtitle}</p>
+                    </div>
                   </a>
                 ))}
               </div>
@@ -1663,7 +1708,7 @@ const App: React.FC = () => {
           <li>
             <a href="https://t.me/Kvaisell" target="_blank" rel="noopener noreferrer" className="social-icon" aria-label="Telegram">
               <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 496 512">
-                <path d="M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142q-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z"></path>
+                <path d="M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142q-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7q108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z"></path>
               </svg>
             </a>
           </li>
@@ -1712,4 +1757,5 @@ const App: React.FC = () => {
     </div>
   );
 };
+
 export default App;
