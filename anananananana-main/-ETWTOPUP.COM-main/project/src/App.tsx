@@ -14,17 +14,17 @@ const Header = () => (
   <nav className="bg-[#f7d365] text-white p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
       <div className="flex-shrink-0">
-        <button className="text-white hover:text-gray-700 focus:outline-none p-1" aria-label="Open menu">
+        <button className="text-black hover:text-gray-700 focus:outline-none p-1" aria-label="Open menu">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeLinecap="round" strokeWidth="2">
             <path d="M4 6h16M4 12h16m-7 6h7"></path>
           </svg>
         </button>
       </div>
       <div className="flex-1 flex justify-center">
-        <span className="text-lg font-bold text-white whitespace-nowrap khmer-font">CHA KVAI STORE</span>
+        <span className="text-lg font-bold text-black whitespace-nowrap khmer-font">CHA KVAI STORE</span>
       </div>
       <div className="flex-shrink-0">
-        <a href="/" className="text-white hover:text-gray-700 transition-colors p-1 block" aria-label="Home">
+        <a href="/" className="text-black hover:text-gray-700 transition-colors p-1 block" aria-label="Home">
           <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
             <path d="M21 8C22.1046 8 23 8.89543 23 10V14C23 15.1046 22.1046 16 21 16H19.9381C19.446 19.9463 16.0796 23 12 23V21C15.3137 21 18 18.3137 18 15V9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9V16H3C1.89543 16 1 15.1046 1 14V10C1 8.89543 1.89543 8 3 8H4.06189C4.55399 4.05369 7.92038 1 12 1C16.0796 1 19.446 4.05369 19.9381 8H21ZM15.5 15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3"></path>
           </svg>
@@ -977,14 +977,14 @@ const App: React.FC = () => {
         .popular-card h2 {
           w-[100px];
           truncate;
-          text-xxs;
+          text-white;
           font-semibold;
           sm:w-[200px];
           md:w-[275px];
           md:text-base;
         }
         .popular-card p {
-          text-xxs;
+          text-white;
           md:text-sm;
         }
         .melpaSlideUp {
@@ -1024,7 +1024,7 @@ const App: React.FC = () => {
         .hover\:ring-primary-500:hover {
           --tw-ring-color: #ffd700;
         }
-        .text-xxs {
+        .text-white {
           font-size: 0.625rem;
         }
         @keyframes skeleton-loading {
@@ -1416,8 +1416,8 @@ const App: React.FC = () => {
                       alt={item.title}
                     />
                     <div className="relative flex w-full flex-col">
-                      <h2 className="w-[100px] truncate text-xxs font-semibold sm:w-[200px] md:w-[275px] md:text-base">{item.title}</h2>
-                      <p className="text-xxs md:text-sm">{item.subtitle}</p>
+                      <h2 className="w-[100px] truncate text-white font-semibold sm:w-[200px] md:w-[275px] md:text-base">{item.title}</h2>
+                      <p className="text-white md:text-sm">{item.subtitle}</p>
                     </div>
                   </a>
                 ))}
