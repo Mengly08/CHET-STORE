@@ -11,20 +11,20 @@ import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
 const Header = () => (
-  <nav className="bg-[#f7d365] text-black p-3 shadow-lg sticky top-0 z-50">
+  <nav className="bg-[#f7d365] text-white p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
       <div className="flex-shrink-0">
-        <button className="text-black hover:text-gray-700 focus:outline-none p-1" aria-label="Open menu">
+        <button className="text-white hover:text-gray-700 focus:outline-none p-1" aria-label="Open menu">
           <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeLinecap="round" strokeWidth="2">
             <path d="M4 6h16M4 12h16m-7 6h7"></path>
           </svg>
         </button>
       </div>
       <div className="flex-1 flex justify-center">
-        <span className="text-lg font-bold text-black whitespace-nowrap khmer-font">CHA KVAI STORE</span>
+        <span className="text-lg font-bold text-white whitespace-nowrap khmer-font">CHA KVAI STORE</span>
       </div>
       <div className="flex-shrink-0">
-        <a href="/" className="text-black hover:text-gray-700 transition-colors p-1 block" aria-label="Home">
+        <a href="/" className="text-white hover:text-gray-700 transition-colors p-1 block" aria-label="Home">
           <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
             <path d="M21 8C22.1046 8 23 8.89543 23 10V14C23 15.1046 22.1046 16 21 16H19.9381C19.446 19.9463 16.0796 23 12 23V21C15.3137 21 18 18.3137 18 15V9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9V16H3C1.89543 16 1 15.1046 1 14V10C1 8.89543 1.89543 8 3 8H4.06189C4.55399 4.05369 7.92038 1 12 1C16.0796 1 19.446 4.05369 19.9381 8H21ZM15.5 15a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3"></path>
           </svg>
@@ -1167,7 +1167,7 @@ const App: React.FC = () => {
                   <button
                     type="submit"
                     disabled={!form.userId || (gameConfig[form.game].requiresServerId && !form.serverId) || validating}
-                    className="w-full bg-[#ffd700] text-black px-4 py-2 rounded-lg hover:bg-[#e6c532] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm justify-center khmer-font"
+                    className="w-full bg-[#ffd700] text-white px-4 py-2 rounded-lg hover:bg-[#e6c532] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm justify-center khmer-font"
                     aria-label="Check account ID"
                   >
                     {validating ? (
@@ -1213,7 +1213,7 @@ const App: React.FC = () => {
             <div className="payment-section section-spacing">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 bg-[#ffd700] rounded-full flex items-center justify-center shadow-md">
-                  <svg className="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 11h16M4 15h6m2 0h2m2 0h2M4 5a2 2 0 012-2h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5z"></path>
                   </svg>
                 </div>
@@ -1227,7 +1227,7 @@ const App: React.FC = () => {
                 >
                   {isPaymentSelected && (
                     <div className="checkmark">
-                      <svg className="h-3 w-3 text-black absolute top-0.5 left-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                      <svg className="h-3 w-3 text-white absolute top-0.5 left-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"></path>
                       </svg>
                     </div>
@@ -1273,7 +1273,7 @@ const App: React.FC = () => {
                 </div>
                 <div className="pay-button">
                   <button
-                    className="w-full bg-[#ffd700] text-black px-3 py-1.5 rounded-lg hover:bg-[#e6c532] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm justify-center khmer-font"
+                    className="w-full bg-[#ffd700] text-white px-3 py-1.5 rounded-lg hover:bg-[#e6c532] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm justify-center khmer-font"
                     disabled={!form.product || paymentCooldown > 0 || !isPaymentSelected || (['mlbb', 'mlbb_ph', 'magicchessgogo'].includes(form.game) && validationResult?.status !== 'success')}
                     onClick={handleSubmit}
                     aria-label="Proceed to payment"
@@ -1373,7 +1373,7 @@ const App: React.FC = () => {
                 <div>
                   <h2 className="text-lg md:text-xl font-bold text-[#ffd700] khmer-font flex items-center gap-2">
                     <div className="popular-header-icon">
-                      <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
                       </svg>
                     </div>
