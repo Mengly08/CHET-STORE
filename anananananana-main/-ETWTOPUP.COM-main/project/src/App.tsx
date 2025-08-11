@@ -1431,7 +1431,7 @@ const App: React.FC = () => {
                         src={item.imgSrc}
                         alt={item.alt}
                         className="w-full h-full object-cover"
-                        onError={(e) => (e.currentTarget.src = '/placeholder.svg?width=80&height=80')}
+                        onError={(e) => (e.currentTarget.src = 'https://kiragamestore.com/_next/image?url=https%3A%2F%2Fres.cloudinary.com%2Fdhztk4abr%2Fimage%2Fupload%2Fv1753697266%2Fproducts%2Fivazuj0pq0zhrvujqnfp.png&w=384&q=75&dpl=dpl_ET82toPhxbv1P7PxmsrZSLqdx3XW')}
                       />
                     </div>
                     <div className="game-info">
