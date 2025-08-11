@@ -896,9 +896,9 @@ const App: React.FC = () => {
           max-width: 422px;
           margin: 0 auto;
           padding: 16px;
-          background: #ffffff;
+          background: linear-gradient(180deg, #1f2937 0%, #121212 100%);
           border-radius: 16px;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
           position: relative;
           overflow: hidden;
         }
@@ -918,49 +918,51 @@ const App: React.FC = () => {
           margin-bottom: 16px;
         }
         .popular-header h2 {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #1a1a1a;
+          font-size: 1.25rem;
+          font-weight: bold;
+          color: #ffd700;
           font-family: 'Noto Sans Khmer', sans-serif;
           display: flex;
           align-items: center;
           gap: 8px;
         }
         .popular-header p {
-          font-size: 0.875rem;
-          color: #6b7280;
+          font-size: 0.65rem;
+          color: #d1d5db;
           line-height: 1.2;
           font-family: 'Noto Sans Khmer', sans-serif;
         }
         .popular-grid {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          grid-template-rows: repeat(2, auto);
+          gap: 12px;
           justify-content: center;
         }
         @media (max-width: 422px) {
           .popular-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
           }
         }
         .popular-card {
           display: flex;
           align-items: center;
-          background: #ffffff;
-          border-radius: 12px;
-          padding: 12px;
-          gap: 12px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-          border: 1px solid #e5e7eb;
+          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+          border-radius: 10px;
+          padding: 8px;
+          gap: 8px;
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+          border: 2px solid #ffd700;
           position: relative;
           overflow: hidden;
           cursor: pointer;
         }
         .popular-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-          background: #f9fafb;
+          transform: translateY(-6px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+          filter: brightness(120%);
         }
         .popular-card:active::after {
           content: '';
@@ -969,7 +971,7 @@ const App: React.FC = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(0, 0, 0, 0.05);
+          background: rgba(255, 215, 0, 0.2);
           pointer-events: none;
           animation: fadeOut 0.3s ease forwards;
         }
@@ -978,32 +980,32 @@ const App: React.FC = () => {
           to { opacity: 0; }
         }
         .popular-card img {
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
           object-fit: cover;
           border-radius: 8px;
           flex-shrink: 0;
-          border: 1px solid #e5e7eb;
+          border: 1px solid #ffd700;
         }
         .popular-card .game-info {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 4px;
-          max-width: calc(100% - 92px);
+          max-width: calc(100% - 68px);
         }
         .popular-card .game-title {
-          font-size: 1rem;
+          font-size: 0.875rem;
           font-weight: 600;
-          color: #1a1a1a;
+          color: #ffffff;
           font-family: 'Noto Sans Khmer', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         .popular-card .game-subtitle {
-          font-size: 0.75rem;
-          color: #6b7280;
+          font-size: 0.625rem;
+          color: #d1d5db;
           font-family: 'Noto Sans Khmer', sans-serif;
           white-space: nowrap;
           overflow: hidden;
@@ -1011,10 +1013,10 @@ const App: React.FC = () => {
         }
         .popular-card .badge {
           background-color: #ffd700;
-          color: #1a1a1a;
-          font-size: 0.65rem;
-          font-weight: 600;
-          padding: 2px 8px;
+          color: #000000;
+          font-size: 0.5rem;
+          font-weight: bold;
+          padding: 2px 6px;
           border-radius: 4px;
           display: inline-block;
         }
@@ -1025,20 +1027,22 @@ const App: React.FC = () => {
         .skeleton-loader {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
-          gap: 16px;
+          grid-template-rows: repeat(2, auto);
+          gap: 12px;
         }
         @media (max-width: 422px) {
           .skeleton-loader {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
           }
         }
         .ph-item.skeleton-populer {
-          background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
+          background: linear-gradient(90deg, #2d3748 25%, #4a5568 37%, #2d3748 63%);
           background-size: 400% 100%;
           animation: skeleton-loading 1.4s ease infinite;
-          height: 104px;
-          border-radius: 12px;
-          border: 1px solid #e5e7eb;
+          height: 76px;
+          border-radius: 10px;
+          border: 2px solid #ffd700;
         }
       `}</style>
       <Header />
@@ -1350,11 +1354,11 @@ const App: React.FC = () => {
             <section className="popular-section">
               <div className="popular-header">
                 <div>
-                  <h2 className="text-lg md:text-xl font-bold text-[#1a1a1a] khmer-font flex items-center gap-2">
+                  <h2 className="text-lg md:text-xl font-bold text-[#ffd700] khmer-font flex items-center gap-2">
                     <lottie-player
                       src="https://lottie.host/105ce5c3-7e93-4dbc-bfc8-6e4c816320e5/8kDtYqEr0W.json"
                       speed="1"
-                      style={{ width: '25px', height: '25px' }}
+                      style={{ width: '20px', height: '20px' }}
                       loop
                       autoplay
                       direction="1"
@@ -1363,10 +1367,12 @@ const App: React.FC = () => {
                     ></lottie-player>
                     POPULAR!
                   </h2>
-                  <p className="text-[10px] text-gray-600 leading-tight">Explore our top games for thrilling experiences.</p>
+                  <p className="text-[10px] text-[#d1d5db] leading-tight">Some of the most popular selected games today.</p>
                 </div>
               </div>
               <div id="skeleton-loader" className="skeleton-loader" style={{ display: loading ? 'grid' : 'none' }}>
+                <div className="ph-item skeleton-populer"></div>
+                <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
               </div>
@@ -1387,6 +1393,22 @@ const App: React.FC = () => {
                     title: 'Free Fire',
                     subtitle: 'Free Fire 🇰🇭🇸🇬🇲🇾',
                     gameId: 'freefire',
+                  },
+                  {
+                    href: 'https://dinotopup.com/id/mlbb_ph',
+                    imgSrc: '/assets/thumbnail/d6c204f673f89592f26fbcdb166086e852e64b33.png',
+                    alt: 'Mobile Legends PH',
+                    title: 'Mobile Legends PH',
+                    subtitle: 'Mobile Legends PH 🇰🇭',
+                    gameId: 'mlbb_ph',
+                  },
+                  {
+                    href: 'https://dinotopup.com/id/magicchessgogo',
+                    imgSrc: '/assets/thumbnail/82987c0a4173d13eecf8083cf96c8039e8e77a95.jpeg',
+                    alt: 'Magic Chess GoGo',
+                    title: 'Magic Chess GoGo',
+                    subtitle: 'Magic Chess GoGo 🇰🇭',
+                    gameId: 'magicchessgogo',
                   },
                 ].map((item, index) => (
                   <a
