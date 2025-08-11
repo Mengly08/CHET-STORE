@@ -482,8 +482,8 @@ const App: React.FC = () => {
         }
         .user-info-section input:focus {
           outline: none;
-          ring: 2px solid #2563eb;
-          border-color: transparent;
+          border-color: #2563eb;
+          box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
         }
         .error-text {
           color: #ef4444;
@@ -896,9 +896,9 @@ const App: React.FC = () => {
           max-width: 422px;
           margin: 0 auto;
           padding: 16px;
-          background: linear-gradient(180deg, #1f2937 0%, #121212 100%);
+          background: #ffffff;
           border-radius: 16px;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
           position: relative;
           overflow: hidden;
         }
@@ -918,49 +918,49 @@ const App: React.FC = () => {
           margin-bottom: 16px;
         }
         .popular-header h2 {
-          font-size: 1.25rem;
-          font-weight: bold;
-          color: #ffd700;
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: #1a1a1a;
           font-family: 'Noto Sans Khmer', sans-serif;
           display: flex;
           align-items: center;
           gap: 8px;
         }
         .popular-header p {
-          font-size: 0.65rem;
-          color: #d1d5db;
+          font-size: 0.875rem;
+          color: #6b7280;
           line-height: 1.2;
           font-family: 'Noto Sans Khmer', sans-serif;
         }
         .popular-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          grid-template-columns: repeat(2, 1fr);
           gap: 16px;
           justify-content: center;
         }
-        @media (min-width: 1024px) {
+        @media (max-width: 422px) {
           .popular-grid {
-            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            grid-template-columns: 1fr;
           }
         }
         .popular-card {
           display: flex;
           align-items: center;
-          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+          background: #ffffff;
           border-radius: 12px;
           padding: 12px;
           gap: 12px;
-          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
-          border: 2px solid #ffd700;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+          border: 1px solid #e5e7eb;
           position: relative;
           overflow: hidden;
           cursor: pointer;
         }
         .popular-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
-          filter: brightness(120%);
+          transform: translateY(-4px);
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+          background: #f9fafb;
         }
         .popular-card:active::after {
           content: '';
@@ -969,7 +969,7 @@ const App: React.FC = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(255, 215, 0, 0.2);
+          background: rgba(0, 0, 0, 0.05);
           pointer-events: none;
           animation: fadeOut 0.3s ease forwards;
         }
@@ -978,32 +978,32 @@ const App: React.FC = () => {
           to { opacity: 0; }
         }
         .popular-card img {
-          width: 72px;
-          height: 72px;
+          width: 80px;
+          height: 80px;
           object-fit: cover;
-          border-radius: 10px;
+          border-radius: 8px;
           flex-shrink: 0;
-          border: 1px solid #ffd700;
+          border: 1px solid #e5e7eb;
         }
         .popular-card .game-info {
           flex: 1;
           display: flex;
           flex-direction: column;
           gap: 4px;
-          max-width: calc(100% - 84px);
+          max-width: calc(100% - 92px);
         }
         .popular-card .game-title {
-          font-size: 0.85rem;
+          font-size: 1rem;
           font-weight: 600;
-          color: #ffffff;
+          color: #1a1a1a;
           font-family: 'Noto Sans Khmer', sans-serif;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
         .popular-card .game-subtitle {
-          font-size: 0.7rem;
-          color: #d1d5db;
+          font-size: 0.75rem;
+          color: #6b7280;
           font-family: 'Noto Sans Khmer', sans-serif;
           white-space: nowrap;
           overflow: hidden;
@@ -1011,9 +1011,9 @@ const App: React.FC = () => {
         }
         .popular-card .badge {
           background-color: #ffd700;
-          color: #000000;
-          font-size: 0.6rem;
-          font-weight: bold;
+          color: #1a1a1a;
+          font-size: 0.65rem;
+          font-weight: 600;
           padding: 2px 8px;
           border-radius: 4px;
           display: inline-block;
@@ -1024,21 +1024,21 @@ const App: React.FC = () => {
         }
         .skeleton-loader {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          grid-template-columns: repeat(2, 1fr);
           gap: 16px;
         }
-        @media (min-width: 1024px) {
+        @media (max-width: 422px) {
           .skeleton-loader {
-            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            grid-template-columns: 1fr;
           }
         }
         .ph-item.skeleton-populer {
-          background: linear-gradient(90deg, #2d3748 25%, #4a5568 37%, #2d3748 63%);
+          background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 37%, #f3f4f6 63%);
           background-size: 400% 100%;
           animation: skeleton-loading 1.4s ease infinite;
-          height: 96px;
+          height: 104px;
           border-radius: 12px;
-          border: 2px solid #ffd700;
+          border: 1px solid #e5e7eb;
         }
       `}</style>
       <Header />
@@ -1338,15 +1338,6 @@ const App: React.FC = () => {
                       <a href="https://t.me/kvaiselldiamond" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
                         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
                           <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path>
-                          </svg>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="https://t.me/kvaiselldiamond" aria-label="Telegram" target="_blank" rel="noopener noreferrer" className="group">
-                        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-1 hover:bg-white/20 transition-all duration-200 border border-white/20 shadow-md">
-                          <svg className="w-6 h-6 text-white group-hover:text-yellow-300 transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M23.91 3.79L20.3 20.84c-.25 1.21-.98 1.5-2 .94l-5.5-4.07-2.66 2.57c-.3.3-.55.56-1.1.56-.72 0-.6-.27-.84-.95L6.3 13.7l-5.45-1.7c-1.18-.35-1.19-1.16.26-1.75l21.26-8.2c.97-.43 1.9.24 1.53 1.73z"></path>
                           </svg>
                         </div>
@@ -1359,7 +1350,7 @@ const App: React.FC = () => {
             <section className="popular-section">
               <div className="popular-header">
                 <div>
-                  <h2 className="text-lg md:text-xl font-bold text-[#ffd700] khmer-font flex items-center gap-2">
+                  <h2 className="text-lg md:text-xl font-bold text-[#1a1a1a] khmer-font flex items-center gap-2">
                     <lottie-player
                       src="https://lottie.host/105ce5c3-7e93-4dbc-bfc8-6e4c816320e5/8kDtYqEr0W.json"
                       speed="1"
@@ -1372,12 +1363,10 @@ const App: React.FC = () => {
                     ></lottie-player>
                     POPULAR!
                   </h2>
-                  <p className="text-[10px] text-gray-300 leading-tight">Some of the most popular selected products today.</p>
+                  <p className="text-[10px] text-gray-600 leading-tight">Explore our top games for thrilling experiences.</p>
                 </div>
               </div>
               <div id="skeleton-loader" className="skeleton-loader" style={{ display: loading ? 'grid' : 'none' }}>
-                <div className="ph-item skeleton-populer"></div>
-                <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
               </div>
@@ -1399,22 +1388,6 @@ const App: React.FC = () => {
                     subtitle: 'Free Fire 🇰🇭🇸🇬🇲🇾',
                     gameId: 'freefire',
                   },
-                  {
-                    href: 'https://dinotopup.com/id/mlbb_ph',
-                    imgSrc: '/assets/thumbnail/d6c204f673f89592f26fbcdb166086e852e64b33.png',
-                    alt: 'Mobile Legends PH',
-                    title: 'Mobile Legends PH',
-                    subtitle: 'Mobile Legends PH 🇰🇭',
-                    gameId: 'mlbb_ph',
-                  },
-                  {
-                    href: 'https://dinotopup.com/id/magicchessgogo',
-                    imgSrc: '/assets/thumbnail/82987c0a4173d13eecf8083cf96c8039e8e77a95.jpeg',
-                    alt: 'Magic Chess GoGo',
-                    title: 'Magic Chess GoGo',
-                    subtitle: 'Magic Chess GoGo 🇰🇭',
-                    gameId: 'magicchessgogo',
-                  },
                 ].map((item, index) => (
                   <a
                     key={index}
@@ -1431,12 +1404,12 @@ const App: React.FC = () => {
                     }}
                     aria-label={`Select ${item.title}`}
                   >
-                    <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden">
+                    <div className="flex-shrink-0 w-20 h-20 rounded-md overflow-hidden">
                       <img
                         src={item.imgSrc}
                         alt={item.alt}
                         className="w-full h-full object-cover"
-                        onError={(e) => (e.currentTarget.src = '/placeholder.svg?width=64&height=64')}
+                        onError={(e) => (e.currentTarget.src = '/placeholder.svg?width=80&height=80')}
                       />
                     </div>
                     <div className="game-info">
