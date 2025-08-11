@@ -945,13 +945,11 @@ const App: React.FC = () => {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, auto);
-          gap: 10px;
-          justify-content: center;
+          gap: 2px;
         }
-        @media (max-width: 422px) {
+        @media (min-width: 640px) {
           .popular-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
+            gap: 4px;
           }
         }
         .popular-card {
@@ -963,6 +961,7 @@ const App: React.FC = () => {
           height: 80px;
           cursor: pointer;
           transition: transform 0.2s;
+          border: 2px solid #ffd700;
         }
         .popular-card.enabled:hover {
           transform: scale(1.05);
@@ -993,12 +992,12 @@ const App: React.FC = () => {
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, auto);
-          gap: 10px;
+          gap: 2px;
+          margin-top: 12px;
         }
-        @media (max-width: 422px) {
+        @media (min-width: 640px) {
           .skeleton-loader {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 6px;
+            gap: 4px;
           }
         }
         .ph-item.skeleton-populer {
@@ -1340,7 +1339,7 @@ const App: React.FC = () => {
                   <p className="text-[10px] text-[#d1d5db] leading-tight">Some of the most popular selected games today.</p>
                 </div>
               </div>
-              <div id="skeleton-loader" className="skeleton-loader" style={{ display: loading ? 'grid' : 'none' }}>
+              <div id="skeleton-loader" className="skeleton-loader grid grid-cols-2 gap-2 md:gap-4 mt-3" style={{ display: loading ? 'grid' : 'none' }}>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
                 <div className="ph-item skeleton-populer"></div>
