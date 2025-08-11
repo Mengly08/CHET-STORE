@@ -26,7 +26,6 @@ export function ProductList({ products, selectedProduct, onSelect, game }: Props
       const diamondSubgroups = groups.diamonds.reduce((acc, product) => {
         let subgroup: string;
         const nameLower = product.name.toLowerCase();
-
         if (nameLower.includes('pass') || nameLower.includes('weekly')) {
           subgroup = 'passes';
         } else if (/^\d+\s*diamonds?$/.test(nameLower)) {
@@ -34,7 +33,6 @@ export function ProductList({ products, selectedProduct, onSelect, game }: Props
         } else {
           subgroup = 'other';
         }
-
         if (!acc[subgroup]) {
           acc[subgroup] = [];
         }
@@ -49,46 +47,48 @@ export function ProductList({ products, selectedProduct, onSelect, game }: Props
           diamondSubgroups[subgroup].sort((a, b) => a.price - b.price);
         }
       });
-
       groups.diamonds = diamondSubgroups;
     }
-
     return groups;
   }, [products]);
 
+  // Define the order of sections
+  const sectionOrder = ['special', 'diamonds', 'subscription'];
+
   const renderProductCard = (product: GameProduct) => {
     const isSelected = selectedProduct?.id === product.id;
-    
+
     return (
-      <li key={product.id}>
-        <button 
-          type="button" 
-          className={`game-card-btn ${isSelected ? 'selected' : ''}`} 
+      <li key={product.id} className="flex">
+        <button
+          type="button"
+          className={`diamond-list-item relative flex items-center w-full px-2 py-1 rounded-lg border border-gray-300 bg-[#6E6E6E] transition-all hover:border-yellow-400 ${isSelected ? 'bg-gray-500 border-yellow-400 shadow-md' : ''}`}
           onClick={() => onSelect(product)}
+          data-package-id={product.id}
         >
-          <div className="custom-card">
-            <div className="content">
-              <div className="title-cover">
-                <h3 className="title">{product.name}</h3>
-              </div>
-              <div className="price-cover">
-                <p className="price">${product.price.toFixed(2)}</p>
-                {isReseller && product.resellerPrice && (
-                  <p className="reseller-price text-xs text-gray-600">Reseller: ${product.resellerPrice.toFixed(2)}</p>
-                )}
+          {product.discount && (
+            <div className="absolute top-0 left-0 bg-red-600 text-white text-[8px] font-bold px-1 py-0.5 rounded-br-lg rounded-tl-lg">
+              {product.discount}% OFF
+            </div>
+          )}
+          <div className="item-title flex items-center w-full">
+            <div className="diamond-icon mr-2">
+              <div className="rounded-full overflow-hidden w-10 h-10">
+                <img
+                  alt={`${product.name} icon`}
+                  src={product.image || 'https://via.placeholder.com/40'}
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
-            <div className="icon">
-              <img 
-                alt={product.name} 
-                loading="lazy" 
-                width="45" 
-                height="45" 
-                decoding="async" 
-                data-nimg="1" 
-                src={product.image || 'https://via.placeholder.com/45'} 
-                style={{color: 'transparent'}}
-              />
+            <div className="flex flex-col flex-1">
+              <div className="text-white font-semibold text-xs truncate">{product.name}</div>
+              <div className="text-yellow-400 font-bold text-sm">
+                ${product.price.toFixed(2)}
+              </div>
+              {isReseller && product.resellerPrice && (
+                <div className="text-gray-300 text-[10px]">Reseller: ${product.resellerPrice.toFixed(2)}</div>
+              )}
             </div>
           </div>
         </button>
@@ -98,22 +98,25 @@ export function ProductList({ products, selectedProduct, onSelect, game }: Props
 
   return (
     <div className="space-y-6">
-      {Object.entries(groupedProducts).map(([type, group]) => (
-        <div key={type}>
-          <h3 className="text-lg font-semibold text-gray-800 mb-3 capitalize">
-            {type === 'special' ? 'Best Seller' : 
-             type === 'diamonds' ? 'Saving Packages' : 
-             type === 'subscription' ? 'Subscription Packages' : type}
-          </h3>
-          <ul className="game-list">
-            {Array.isArray(group) 
-              ? group.map(renderProductCard)
-              : Object.values(group).flat().map(renderProductCard)
-            }
-          </ul>
-        </div>
-      ))}
-
+      {sectionOrder.map((type) => {
+        const group = groupedProducts[type];
+        if (!group) return null;
+        return (
+          <div key={type}>
+            <h3 className="text-lg font-semibold text-white mb-3 capitalize">
+              {type === 'special' ? 'Best Seller' :
+               type === 'diamonds' ? 'Saving Packages' :
+               type === 'subscription' ? 'Subscription Packages' : type}
+            </h3>
+            <ul className="grid grid-cols-2 gap-2">
+              {Array.isArray(group)
+                ? group.map(renderProductCard)
+                : Object.values(group).flat().map(renderProductCard)
+              }
+            </ul>
+          </div>
+        );
+      })}
       {products.length === 0 && (
         <div className="text-center py-10">
           <div className="rounded-xl p-6 border border-gray-200 shadow-lg">
@@ -132,79 +135,39 @@ export function ProductList({ products, selectedProduct, onSelect, game }: Props
         </div>
       )}
       <style jsx>{`
-        .game-list {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 8px;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-        .game-card-btn {
-          width: 143px;
-          height: 48px;
-          padding: 0;
-          background: white;
-          border: 1px solid #e5e7eb;
+        .diamond-list-item {
+          padding: 6px 8px; /* Reduced padding */
+          background: #6E6E6E;
           border-radius: 8px;
           cursor: pointer;
           transition: all 0.2s;
-        }
-        .game-card-btn:hover {
-          border-color: #d1d5db;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .game-card-btn.selected {
-          border-color: #3b82f6;
-          background: white;
-        }
-        .custom-card {
+          height: 70px; /* Slightly reduced height */
+          width: 100%; /* Full width within grid cell */
           display: flex;
-          justify-content: space-between;
+          align-items: center;
+          box-sizing: border-box;
+        }
+        .diamond-list-item:hover {
+          border-color: #facc15;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .diamond-list-item.bg-gray-500 {
+          background: #6b7280;
+          border-color: #facc15;
+        }
+        .item-title {
+          display: flex;
           align-items: center;
           width: 100%;
-          height: 100%;
-          padding: 4px 8px;
         }
-        .content {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          flex: 1;
-          min-width: 0;
+        .diamond-icon img {
+          object-fit: contain;
         }
-        .title-cover {
-          overflow: hidden;
-        }
-        .title {
-          font-size: 12px;
-          font-weight: 600;
-          color: #1f2937;
+        .truncate {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-        .price-cover {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-        }
-        .price {
-          font-size: 12px;
-          font-weight: 700;
-          color: #ef4444;
-        }
-        .reseller-price {
-          font-size: 10px;
-          color: #6b7280;
-        }
-        .icon {
-          flex-shrink: 0;
-        }
-        .icon img {
-          width: 35px;
-          height: 35px;
-          object-fit: contain;
+          max-width: 100%; /* Prevent text overflow */
         }
       `}</style>
     </div>
