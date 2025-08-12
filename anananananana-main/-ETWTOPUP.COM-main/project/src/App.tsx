@@ -1522,6 +1522,32 @@ const App: React.FC = () => {
           </main>
         )}
       </div>
+      <div className="relative w-full h-[90px] overflow-hidden">
+        <svg
+          width="100%"
+          className="hero-waves absolute top-0 left-0 z-10"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          viewBox="0 24 150 28"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <path
+              id="wave-path"
+              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+            ></path>
+          </defs>
+          <g className="wave1">
+            <use xlinkHref="#wave-path" x="50" y="3" fill="rgba(0, 128, 0, .1)" />
+          </g>
+          <g className="wave2">
+            <use xlinkHref="#wave-path" x="50" y="0" fill="rgba(0, 128, 0, .2)" />
+          </g>
+          <g className="wave3">
+            <use xlinkHref="#wave-path" x="50" y="4" fill="#008000" />
+          </g>
+        </svg>
+      </div>
       <footer className="bg-[#1a1a1a] text-white border-t-4 border-[#ffd700] py-8 mt-[100px]">
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;700&display=swap');
