@@ -68,7 +68,7 @@ const gameConfig = {
     tableName: 'pubg_products',
     requiresServerId: false,
     enabled: false,
-    developer: 'TENCENT',
+    developer: 'cambodia ( 1-5MINS )',
   },
   honorofkings: {
     name: 'HOK',
@@ -76,7 +76,7 @@ const gameConfig = {
     tableName: 'honorofkings_products',
     requiresServerId: false,
     enabled: false,
-    developer: 'TENCENT',
+    developer: 'cambodia ( 1-5MINS )',
   },
 };
 const hardcodedProducts = [
