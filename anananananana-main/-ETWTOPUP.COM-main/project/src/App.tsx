@@ -17,7 +17,7 @@ const Header = () => (
         <img src="https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp" alt="Left Logo" className="w-10 h-10 rounded" />
       </div>
       <div className="flex-1 flex justify-center flex-col items-center">
-        <span className="text-lg font-bold text-black khmer-font">ETWTOPUP</span>
+        <span className="text-lg font-bold text-black khmer-font">KVAI TOPUP</span>
         <span className="text-xs text-black khmer-font">Mobile Legends & Free Fire Top-up Center</span>
       </div>
       <div className="flex-shrink-0">
@@ -51,7 +51,7 @@ const gameConfig = {
     tableName: 'freefire_products',
     requiresServerId: false,
     enabled: true,
-    developer: 'GARENA',
+    developer: 'GARENA CAMBODIA CAMBODIA',
   },
   magicchessgogo: {
     name: 'MAGIC CHESS',
@@ -62,13 +62,13 @@ const gameConfig = {
     enabled: true,
     developer: 'MOONTON (1-10mn)',
   },
-  pubg: {
+  : {
     name: 'PUBG',
     image: 'https://play-lh.googleusercontent.com/JRd05pyBH41qjgsJuWduRJpDeZG0Hnb0yjf2nWqO7VaGKL10-G5UIygxED-WNOc3pg',
     tableName: 'pubg_products',
     requiresServerId: false,
     enabled: false,
-    developer: 'cambodia ( 1-5MINS )',
+    developer:  comming soon g',
   },
   honorofkings: {
     name: 'HOK',
