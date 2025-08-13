@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, Suspense, lazy, useRef } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
@@ -480,28 +479,62 @@ const App: React.FC = () => {
         }
         .game-container {
           display: grid;
-          grid-template-columns: repeat(3, 107px);
+          grid-template-columns: repeat(3, 1fr);
           gap: 12px;
           max-width: 351px;
           margin: 0 auto;
           padding: 10px 5px;
           justify-content: center;
         }
-        .game-card {
-          border-radius: 10px;
-          overflow: hidden;
+        .game-center-card-container {
+          animation: fade-in 0.5s;
+        }
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .game-center-card {
           background: #ffd700;
-          width: 107px;
-          height: 134px;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          overflow: hidden;
+          width: 100%;
         }
-        .game-card.enabled {
-          cursor: pointer;
-          transition: transform 0.2s;
+        .game-center-image {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
         }
-        .game-card.enabled:hover { transform: scale(1.05); }
-        .game-card.disabled {
-          opacity: 0.7;
-          cursor: not-allowed;
+        .game-center-badge {
+          position: absolute;
+          top: 8px;
+          right: 8px;
+          background: #f9d43d;
+          color: #1a1a1a;
+          padding: 2px 6px;
+          border-radius: 12px;
+          font-size: 10px;
+        }
+        .game-center-info {
+          padding: 8px;
+          text-align: center;
+          color: #1a1a1a;
+        }
+        .game-center-name {
+          font-weight: bold;
+          font-size: 12px;
+        }
+        .game-center-status {
+          font-size: 10px;
+        }
+        .game-center-button {
+          background: #1a1a1a;
+          color: #ffd700;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          width: 100%;
+          margin-top: 4px;
         }
         .mlbb-container11 {
           display: flex;
@@ -1383,50 +1416,23 @@ const App: React.FC = () => {
             <div className="bg-[#1a1a1a] p-4 rounded-lg">
               <h2 className="text-md font-bold text-[#ffd700] my-2 khmer-font">Games Shop</h2>
               <div className="game-container">
-                {Object.entries(gameConfig).slice(0, 3).map(([gameId, { name, image, enabled, developer }]) => (
-                  <div
-                    key={gameId}
-                    className={`game-card ${enabled ? 'enabled' : 'disabled'}`}
-                    onClick={() => {
-                      if (!enabled) {
-                        showNotification(`${name} is coming soon`, 'error');
-                        return;
-                      }
+                {Object.entries(gameConfig).map(([gameId, { name, image, enabled, developer }]) => (
+                  <div className="game-center-card-container fade-in" key={gameId}>
+                    <div className="game-center-card">
+                      <div className="relative">
+                        <img src={image} alt={name} class="game-center-image" />
+                        <div className="game-center-badge khmer-font">{enabled ? 'ពេញនិយម' : 'Coming Soon'}</div>
+                      </div>
+                      <div className="game-center-info">
+                        <div className="game-center-name">{name}</div>
+                        <div className="game-center-status">{developer}</div>
+                      </div>
+                    </div>
+                    <button className="game-center-button" disabled={!enabled} onClick={() => {
+                      if (!enabled) return;
                       setForm(prev => ({ ...prev, game: gameId as keyof typeof gameConfig }));
                       setShowTopUp(true);
-                    }}
-                    role={enabled ? 'button' : undefined}
-                    aria-label={enabled ? `Select ${name}` : `${name} (Coming Soon)`}
-                  >
-                    <div className="flex flex-col justify-center items-center h-full text-black p-2">
-                      <h3 className="text-base font-bold uppercase">{name}</h3>
-                      <p className="text-sm text-gray-800">{developer}</p>
-                      <p className="text-sm font-bold khmer-font mt-1">{enabled ? 'តម្លៃទាប' : 'Coming Soon'}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="game-container mt-3">
-                {Object.entries(gameConfig).slice(3, 6).map(([gameId, { name, image, enabled, developer }]) => (
-                  <div
-                    key={gameId}
-                    className={`game-card ${enabled ? 'enabled' : 'disabled'}`}
-                    onClick={() => {
-                      if (!enabled) {
-                        showNotification(`${name} is coming soon`, 'error');
-                        return;
-                      }
-                      setForm(prev => ({ ...prev, game: gameId as keyof typeof gameConfig }));
-                      setShowTopUp(true);
-                    }}
-                    role={enabled ? 'button' : undefined}
-                    aria-label={enabled ? `Select ${name}` : `${name} (Coming Soon)`}
-                  >
-                    <div className="flex flex-col justify-center items-center h-full text-black p-2">
-                      <h3 className="text-base font-bold uppercase">{name}</h3>
-                      <p className="text-sm text-gray-800">{developer}</p>
-                      <p className="text-sm font-bold khmer-font mt-1">{enabled ? 'តម្លៃទាប' : 'Coming Soon'}</p>
-                    </div>
+                    }}>TOP UP NOW</button>
                   </div>
                 ))}
               </div>
@@ -1660,7 +1666,7 @@ const App: React.FC = () => {
           {
             icon: (
               <svg className="lucide lucide-zap icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                <polygon points="13 2 3 14 12 14 11 22 11 22 21 10 12 10 13 2"></polygon>
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
             ),
             title: 'ជំនួយការអតិថិជនដែលរហ័ស',
