@@ -79,22 +79,28 @@ const gameConfig = {
     developer: 'cambodia ( 1-5MINS )',
   },
 };
-const hardcodedProducts = [
-  { id: 1, name: 'Weekly Pass', price: 1.34, diamonds: null, type: 'subscription', game: 'mlbb' },
-  { id: 2, name: 'Weekly Pass x2', price: 2.75, diamonds: null, type: 'subscription', game: 'mlbb' },
-  { id: 3, name: 'Weekly Pass x5', price: 6.85, diamonds: null, type: 'subscription', game: 'mlbb' },
-  { id: 4, name: '86 DM + Weekly', price: 2.86, diamonds: '86', type: 'diamonds', game: 'mlbb' },
-  { id: 5, name: '257 DM + Weekly', price: 4.95, diamonds: '257', type: 'diamonds', game: 'mlbb' },
-  { id: 6, name: '55 DM', price: 0.79, diamonds: '55', type: 'diamonds', game: 'mlbb' },
-  { id: 7, name: '86 DM', price: 1.90, diamonds: '86', type: 'diamonds', game: 'mlbb' },
-  { id: 8, name: '165 DM', price: 2.15, diamonds: '165', type: 'diamonds', game: 'mlbb' },
-  { id: 9, name: '172 DM', price: 2.20, diamonds: '172', type: 'diamonds', game: 'mlbb' },
-  { id: 10, name: '257 DM', price: 3.30, diamonds: '257', type: 'diamonds', game: 'mlbb' },
-  { id: 11, name: '429 DM', price: 5.50, diamonds: '429', type: 'diamonds', game: 'mlbb' },
-  { id: 12, name: '514 DM', price: 6.50, diamonds: '514', type: 'diamonds', game: 'mlbb' },
-  { id: 13, name: '565 DM', price: 6.95, diamonds: '565', type: 'diamonds', game: 'mlbb' },
-  { id: 14, name: '600 DM', price: 7.50, diamonds: '600', type: 'diamonds', game: 'mlbb' },
-];
+const hardcodedProducts = {
+  mlbb: [
+    { id: 1, name: 'Weekly Pass', price: 1.34, diamonds: null, type: 'subscription', game: 'mlbb' },
+    { id: 2, name: 'Weekly Pass x2', price: 2.75, diamonds: null, type: 'subscription', game: 'mlbb' },
+    { id: 3, name: 'Weekly Pass x5', price: 6.85, diamonds: null, type: 'subscription', game: 'mlbb' },
+    { id: 4, name: '86 DM + Weekly', price: 2.86, diamonds: '86', type: 'diamonds', game: 'mlbb' },
+    { id: 5, name: '257 DM + Weekly', price: 4.95, diamonds: '257', type: 'diamonds', game: 'mlbb' },
+    { id: 6, name: '55 DM', price: 0.79, diamonds: '55', type: 'diamonds', game: 'mlbb' },
+    { id: 7, name: '86 DM', price: 1.90, diamonds: '86', type: 'diamonds', game: 'mlbb' },
+    { id: 8, name: '165 DM', price: 2.15, diamonds: '165', type: 'diamonds', game: 'mlbb' },
+    { id: 9, name: '172 DM', price: 2.20, diamonds: '172', type: 'diamonds', game: 'mlbb' },
+    { id: 10, name: '257 DM', price: 3.30, diamonds: '257', type: 'diamonds', game: 'mlbb' },
+    { id: 11, name: '429 DM', price: 5.50, diamonds: '429', type: 'diamonds', game: 'mlbb' },
+    { id: 12, name: '514 DM', price: 6.50, diamonds: '514', type: 'diamonds', game: 'mlbb' },
+    { id: 13, name: '565 DM', price: 6.95, diamonds: '565', type: 'diamonds', game: 'mlbb' },
+    { id: 14, name: '600 DM', price: 7.50, diamonds: '600', type: 'diamonds', game: 'mlbb' },
+  ],
+  // Add hardcoded for other games if available, otherwise empty
+  mlbb_ph: [],
+  freefire: [],
+  magicchessgogo: [],
+};
 const diamondCombinations = {
   '86': { total: '86', breakdown: '86+0bonus' },
   '172': { total: '172', breakdown: '172+0bonus' },
@@ -135,6 +141,7 @@ const App: React.FC = () => {
   const [orderFormat, setOrderFormat] = useState('');
   const [formErrors, setFormErrors] = useState<{ userId?: string; serverId?: string }>({});
   const [products, setProducts] = useState<GameProduct[]>([]);
+  const [productsByGame, setProductsByGame] = useState<{ [key: string]: GameProduct[] }>({});
   const [loading, setLoading] = useState(false);
   const [isAdminRoute, setIsAdminRoute] = useState(false);
   const [isResellerRoute, setIsResellerRoute] = useState(false);
@@ -169,10 +176,60 @@ const App: React.FC = () => {
     return () => window.removeEventListener('popstate', checkRoute);
   }, []);
   useEffect(() => {
+    const prefetchProducts = async () => {
+      const enabledGames = Object.keys(gameConfig).filter(key => gameConfig[key].enabled);
+      for (const game of enabledGames) {
+        try {
+          const { tableName } = gameConfig[game];
+          const { data, error } = await supabase
+            .from(tableName)
+            .select('*')
+            .order('id', { ascending: true });
+          if (error) throw new Error(error.message);
+          let transformedProducts: GameProduct[] = data.map(product => ({
+            id: product.id,
+            name: product.name,
+            diamonds: product.diamonds || undefined,
+            price: product.price,
+            currency: product.currency,
+            type: product.type as 'diamonds' | 'subscription' | 'special',
+            game,
+            image: product.image || undefined,
+            code: product.code || undefined,
+            tagname: product.tagname || undefined,
+          }));
+          if (sessionStorage.getItem('jackstore_reseller_auth') === 'true') {
+            const { data: resellerPrices, error: resellerError } = await supabase
+              .from('reseller_prices')
+              .select('*')
+              .eq('game', game);
+            if (!resellerError && resellerPrices) {
+              transformedProducts = transformedProducts.map(product => {
+                const resellerPrice = resellerPrices.find(rp => rp.product_id === product.id && rp.game === product.game);
+                return resellerPrice ? { ...product, price: resellerPrice.price, resellerPrice: resellerPrice.price } : product;
+              });
+            }
+          }
+          setProductsByGame(prev => ({ ...prev, [game]: transformedProducts }));
+        } catch (error) {
+          setProductsByGame(prev => ({ ...prev, [game]: hardcodedProducts[game] || [] }));
+        }
+      }
+    };
+    prefetchProducts();
+  }, []);
+  useEffect(() => {
     if (showTopUp && !isAdminRoute && !isResellerRoute) {
-      fetchProducts(form.game);
+      const gameProducts = productsByGame[form.game];
+      if (gameProducts) {
+        setProducts(gameProducts);
+        setLoading(false);
+      } else {
+        setLoading(true);
+        fetchProducts(form.game).finally(() => setLoading(false));
+      }
     }
-  }, [form.game, isAdminRoute, isResellerRoute, showTopUp]);
+  }, [showTopUp, form.game, isAdminRoute, isResellerRoute, productsByGame]);
   useEffect(() => {
     if (form.userId || form.serverId) {
       sessionStorage.setItem('customerInfo', JSON.stringify({
@@ -188,32 +245,6 @@ const App: React.FC = () => {
       if (cooldownInterval) clearInterval(cooldownInterval);
     };
   }, [cooldownInterval]);
-  // Comment out IntersectionObserver to prevent auto-scrolling issues
-  // useEffect(() => {
-  //   const observers = blogBoxRefs.current.map((ref, index) => {
-  //     if (ref) {
-  //       const observer = new IntersectionObserver(
-  //         ([entry]) => {
-  //           if (entry.isIntersecting) {
-  //             setVisibleBlogs(prev => {
-  //               const newVisible = [...prev];
-  //               newVisible[index] = true;
-  //               return newVisible;
-  //             });
-  //             observer.disconnect();
-  //           }
-  //         },
-  //         { threshold: 0.1 }
-  //       );
-  //       observer.observe(ref);
-  //       return observer;
-  //     }
-  //     return null;
-  //   });
-  //   return () => {
-  //     observers.forEach(observer => observer?.disconnect());
-  //   };
-  // }, []);
   const startPaymentCooldown = () => {
     setPaymentCooldown(7);
     if (cooldownInterval) clearInterval(cooldownInterval);
@@ -233,7 +264,6 @@ const App: React.FC = () => {
     setTimeout(() => setNotification(null), 3000);
   };
   const fetchProducts = async (game: keyof typeof gameConfig) => {
-    setLoading(true);
     try {
       const { tableName } = gameConfig[game];
       const { data, error } = await supabase
@@ -266,6 +296,7 @@ const App: React.FC = () => {
         }
       }
       setProducts(transformedProducts);
+      setProductsByGame(prev => ({ ...prev, [game]: transformedProducts }));
       if (form.product) {
         const updatedProduct = transformedProducts.find(p => p.id === form.product?.id);
         if (updatedProduct && updatedProduct.price !== form.product.price) {
@@ -273,11 +304,13 @@ const App: React.FC = () => {
           showNotification(`Price for ${updatedProduct.name} updated to $${updatedProduct.price.toFixed(2)}`, 'error');
         }
       }
+      return transformedProducts;
     } catch (error) {
       showNotification('Failed to load products. Using fallback data.', 'error');
-      setProducts(hardcodedProducts.filter(p => p.game === game));
-    } finally {
-      setLoading(false);
+      const fallback = hardcodedProducts[game] || [];
+      setProducts(fallback);
+      setProductsByGame(prev => ({ ...prev, [game]: fallback }));
+      return fallback;
     }
   };
   const validateAccount = async () => {
@@ -1173,7 +1206,7 @@ const App: React.FC = () => {
                 </div>
               ) : (
                 <ProductList
-                  products={products.length > 0 ? products : hardcodedProducts.filter(p => p.game === form.game)}
+                  products={products}
                   onSelect={handleProductSelect}
                   selectedProduct={form.product}
                   game={form.game}
