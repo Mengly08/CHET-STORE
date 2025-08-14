@@ -188,31 +188,32 @@ const App: React.FC = () => {
       if (cooldownInterval) clearInterval(cooldownInterval);
     };
   }, [cooldownInterval]);
-  useEffect(() => {
-    const observers = blogBoxRefs.current.map((ref, index) => {
-      if (ref) {
-        const observer = new IntersectionObserver(
-          ([entry]) => {
-            if (entry.isIntersecting) {
-              setVisibleBlogs(prev => {
-                const newVisible = [...prev];
-                newVisible[index] = true;
-                return newVisible;
-              });
-              observer.disconnect();
-            }
-          },
-          { threshold: 0.1 }
-        );
-        observer.observe(ref);
-        return observer;
-      }
-      return null;
-    });
-    return () => {
-      observers.forEach(observer => observer?.disconnect());
-    };
-  }, []);
+  // Comment out IntersectionObserver to prevent auto-scrolling issues
+  // useEffect(() => {
+  //   const observers = blogBoxRefs.current.map((ref, index) => {
+  //     if (ref) {
+  //       const observer = new IntersectionObserver(
+  //         ([entry]) => {
+  //           if (entry.isIntersecting) {
+  //             setVisibleBlogs(prev => {
+  //               const newVisible = [...prev];
+  //               newVisible[index] = true;
+  //               return newVisible;
+  //             });
+  //             observer.disconnect();
+  //           }
+  //         },
+  //         { threshold: 0.1 }
+  //       );
+  //       observer.observe(ref);
+  //       return observer;
+  //     }
+  //     return null;
+  //   });
+  //   return () => {
+  //     observers.forEach(observer => observer?.disconnect());
+  //   };
+  // }, []);
   const startPaymentCooldown = () => {
     setPaymentCooldown(7);
     if (cooldownInterval) clearInterval(cooldownInterval);
@@ -1447,7 +1448,7 @@ const App: React.FC = () => {
                   <div
                     key={index}
                     ref={el => (blogBoxRefs.current[index] = el)}
-                    className={`blog-box ${visibleBlogs[index] ? 'slide-in' : ''}`}
+                    className={`blog-box`}
                   >
                     <div className="img-box relative">
                       <img
