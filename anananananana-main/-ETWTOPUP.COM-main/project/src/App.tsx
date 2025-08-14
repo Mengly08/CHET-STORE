@@ -17,7 +17,7 @@ const Header = () => (
         <img src="https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp" alt="Left Logo" className="w-10 h-10 rounded" />
       </div>
       <div className="flex-1 flex justify-center flex-col items-center">
-        <span className="text-lg font-bold text-black khmer-font">KVAI TOPUP</span>
+        <span className="text-lg font-bold text-black khmer-font">ETWTOPUP</span>
         <span className="text-xs text-black khmer-font">Mobile Legends & Free Fire Top-up Center</span>
       </div>
       <div className="flex-shrink-0">
@@ -51,7 +51,7 @@ const gameConfig = {
     tableName: 'freefire_products',
     requiresServerId: false,
     enabled: true,
-    developer: 'GARENA CAMBODIA CAMBODIA',
+    developer: 'GARENA',
   },
   magicchessgogo: {
     name: 'MAGIC CHESS',
@@ -62,13 +62,13 @@ const gameConfig = {
     enabled: true,
     developer: 'MOONTON (1-10mn)',
   },
-  : {
+  pubg: {
     name: 'PUBG',
     image: 'https://play-lh.googleusercontent.com/JRd05pyBH41qjgsJuWduRJpDeZG0Hnb0yjf2nWqO7VaGKL10-G5UIygxED-WNOc3pg',
     tableName: 'pubg_products',
     requiresServerId: false,
     enabled: false,
-    developer:  comming soon g',
+    developer: 'cambodia ( 1-5MINS )',
   },
   honorofkings: {
     name: 'HOK',
@@ -135,7 +135,7 @@ const App: React.FC = () => {
   const [orderFormat, setOrderFormat] = useState('');
   const [formErrors, setFormErrors] = useState<{ userId?: string; serverId?: string }>({});
   const [products, setProducts] = useState<GameProduct[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isAdminRoute, setIsAdminRoute] = useState(false);
   const [isResellerRoute, setIsResellerRoute] = useState(false);
   const [isResellerLoggedIn, setIsResellerLoggedIn] = useState(false);
@@ -169,10 +169,10 @@ const App: React.FC = () => {
     return () => window.removeEventListener('popstate', checkRoute);
   }, []);
   useEffect(() => {
-    if (!isAdminRoute && !isResellerRoute) {
+    if (showTopUp && !isAdminRoute && !isResellerRoute) {
       fetchProducts(form.game);
     }
-  }, [form.game, isAdminRoute, isResellerRoute]);
+  }, [form.game, isAdminRoute, isResellerRoute, showTopUp]);
   useEffect(() => {
     if (form.userId || form.serverId) {
       sessionStorage.setItem('customerInfo', JSON.stringify({
@@ -386,6 +386,15 @@ const App: React.FC = () => {
     setForm(prev => ({ ...prev, product }));
     showNotification(`${formatItemDisplay(product)} = $${product.price.toFixed(2)} Selected`, 'success');
   };
+  const handleGameSelect = (gameId: keyof typeof gameConfig) => {
+    const game = gameConfig[gameId];
+    if (game.enabled) {
+      setForm(prev => ({ ...prev, game: gameId }));
+      setShowTopUp(true);
+    } else {
+      showNotification(`${game.name} is coming soon`, 'error');
+    }
+  };
   if (isAdminRoute) {
     return (
       <Suspense fallback={
@@ -487,11 +496,7 @@ const App: React.FC = () => {
           justify-content: center;
         }
         .game-center-card-container {
-          animation: fade-in 0.5s;
-        }
-        @keyframes fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          cursor: pointer;
         }
         .game-center-card {
           background: #ffd700;
@@ -526,15 +531,6 @@ const App: React.FC = () => {
         }
         .game-center-status {
           font-size: 10px;
-        }
-        .game-center-button {
-          background: #1a1a1a;
-          color: #ffd700;
-          padding: 4px 8px;
-          border-radius: 4px;
-          font-size: 10px;
-          width: 100%;
-          margin-top: 4px;
         }
         .mlbb-container11 {
           display: flex;
@@ -761,19 +757,6 @@ const App: React.FC = () => {
           color: #d1d5db;
           font-family: 'Noto Sans Khmer', sans-serif;
         }
-        @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        .slide-in {
-          animation: slideIn 0.8s ease-out forwards;
-        }
         .footer-container {
           max-width: 422px;
           margin: 0 auto;
@@ -976,22 +959,6 @@ const App: React.FC = () => {
         .popular-card p {
           text-white;
           md:text-sm;
-        }
-        .melpaSlideUp {
-          animation-delay: 0s;
-        }
-        @keyframes melpaSlideUp {
-          from {
-            opacity: 0;
-            transform: translateY(50%);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .melpaSlideUp {
-          animation: melpaSlideUp 0.5s ease-out forwards;
         }
         .bg-nvd {
           background: transparent;
@@ -1387,8 +1354,7 @@ const App: React.FC = () => {
                   <a
                     key={index}
                     href={item.href}
-                    className="melpaSlideUp bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800"
-                    style={{ animationDelay: '0s' }}
+                    className="bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800"
                     onClick={(e) => {
                       e.preventDefault();
                       if (gameConfig[item.gameId as keyof typeof gameConfig].enabled) {
@@ -1417,7 +1383,11 @@ const App: React.FC = () => {
               <h2 className="text-md font-bold text-[#ffd700] my-2 khmer-font">Games Shop</h2>
               <div className="game-container">
                 {Object.entries(gameConfig).map(([gameId, { name, image, enabled, developer }]) => (
-                  <div className="game-center-card-container fade-in" key={gameId}>
+                  <div 
+                    className="game-center-card-container" 
+                    key={gameId}
+                    onClick={() => handleGameSelect(gameId as keyof typeof gameConfig)}
+                  >
                     <div className="game-center-card">
                       <div className="relative">
                         <img src={image} alt={name} class="game-center-image" />
@@ -1428,11 +1398,6 @@ const App: React.FC = () => {
                         <div className="game-center-status">{developer}</div>
                       </div>
                     </div>
-                    <button className="game-center-button" disabled={!enabled} onClick={() => {
-                      if (!enabled) return;
-                      setForm(prev => ({ ...prev, game: gameId as keyof typeof gameConfig }));
-                      setShowTopUp(true);
-                    }}>TOP UP NOW</button>
                   </div>
                 ))}
               </div>
