@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy, useRef, memo } from 'react';
+import React, { useState, useEffect, Suspense, lazy, useRef, memo, useMemo } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
 import { ProductList } from './components/ProductList';
@@ -149,13 +149,13 @@ const App: React.FC = () => {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const blogBoxRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleBlogs, setVisibleBlogs] = useState<boolean[]>([false, false, false]);
-  const formatItemDisplay = (product: GameProduct | null) => {
+  const formatItemDisplay = useMemo(() => (product: GameProduct | null) => {
     if (!product) return 'None';
     const identifier = product.diamonds || product.name;
     const combo = diamondCombinations[identifier];
     if (!combo) return identifier;
     return combo.breakdown.endsWith('+0bonus') ? combo.total : `${combo.total} (${combo.breakdown})`;
-  };
+  }, []);
   useEffect(() => {
     const checkRoute = () => {
       const path = window.location.pathname;
@@ -1012,6 +1012,12 @@ const App: React.FC = () => {
         img {
           loading: lazy;
         }
+        * {
+          transition-duration: 0.1s !important;
+        }
+        .blog-box:hover, .feature-card:hover, .popular-card:hover {
+          transition-duration: 0.1s !important;
+        }
       `}</style>
       <Header />
       {notification && (
@@ -1725,4 +1731,4 @@ const App: React.FC = () => {
     </div>
   );
 };
-export default App;
+export default memo(App);
