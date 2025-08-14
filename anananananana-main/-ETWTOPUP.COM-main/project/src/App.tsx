@@ -31,7 +31,7 @@ const gameConfig = {
     name: 'MOBILE LEGENDS',
     image: 'https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp',
     tableName: 'mlbb_products',
-    apiUrl: 'https://api.vibolshop.com/api_reseller/checkid_mlbb.php?userid={userId}&zoneid={serverId}',
+    apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
     requiresServerId: true,
     enabled: true,
     developer: 'MOONTON',
@@ -325,7 +325,7 @@ const App: React.FC = () => {
       const url = apiUrl.replace('{userId}', form.userId).replace('{serverId}', form.serverId);
       const response = await axios.get(url, { responseType: 'json' });
       let validationResult: MLBBValidationResponse;
-      if (form.game === 'mlbb_ph') {
+      if (form.game === 'mlbb' || form.game === 'mlbb_ph') {
         const jsonResponse = response.data as { success: boolean; name?: string; message?: string };
         if (jsonResponse.success) {
           validationResult = { status: 'success', success: true, data: { userName: jsonResponse.name } };
