@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Suspense, lazy, useRef } from 'react';
+import React, { useState, useEffect, Suspense, lazy, useRef, memo } from 'react';
 import { Loader2, XCircle, ArrowLeft, Search, CheckCircle2 } from 'lucide-react';
 import axios from 'axios';
 import { ProductList } from './components/ProductList';
@@ -10,22 +10,22 @@ import storeConfig from './lib/config';
 import { GameProduct, TopUpForm, MLBBValidationResponse } from './types';
 const AdminPage = lazy(() => import('./pages/AdminPage').then(module => ({ default: module.AdminPage })));
 const ResellerPage = lazy(() => import('./pages/ResellerPage').then(module => ({ default: module.ResellerPage })));
-const Header = () => (
+const Header = memo(() => (
   <nav className="bg-[#f7d365] text-white p-3 shadow-lg sticky top-0 z-50">
     <div className="flex items-center justify-between w-full max-w-[422px] mx-auto">
       <div className="flex-shrink-0">
-        <img src="https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp" alt="Left Logo" className="w-10 h-10 rounded" />
+        <img src="https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp" alt="Left Logo" className="w-10 h-10 rounded" loading="eager" />
       </div>
       <div className="flex-1 flex justify-center flex-col items-center">
         <span className="text-lg font-bold text-black khmer-font">ETWTOPUP</span>
         <span className="text-xs text-black khmer-font">Mobile Legends & Free Fire Top-up Center</span>
       </div>
       <div className="flex-shrink-0">
-        <img src="https://play-lh.googleusercontent.com/sKh_B4ZLfu0jzqx9z98b2APe2rxDb8dIW-QqFHyS3cpzDK2Qq8tAbRAz3rXzOFtdAw" alt="Right Logo" className="w-10 h-10 rounded" />
+        <img src="https://play-lh.googleusercontent.com/sKh_B4ZLfu0jzqx9z98b2APe2rxDb8dIW-QqFHyS3cpzDK2Qq8tAbRAz3rXzOFtdAw" alt="Right Logo" className="w-10 h-10 rounded" loading="eager" />
       </div>
     </div>
   </nav>
-);
+));
 const gameConfig = {
   mlbb: {
     name: 'MOBILE LEGENDS',
@@ -928,6 +928,7 @@ const App: React.FC = () => {
           md:rounded-2xl;
           md:p-3;
           bg-murky-800;
+          cursor: pointer;
         }
         .popular-card img {
           aspect-square;
@@ -1008,6 +1009,9 @@ const App: React.FC = () => {
           border-radius: 10px;
           border: 2px solid #ffd700;
         }
+        img {
+          loading: lazy;
+        }
       `}</style>
       <Header />
       {notification && (
@@ -1029,6 +1033,7 @@ const App: React.FC = () => {
                 src="https://raw.githubusercontent.com/Cheagjihvg/jackstore-asssets/refs/heads/main/Untitled-1%20(1).png"
                 alt="Banner"
                 className="w-full h-auto max-h-40 object-contain max-w-[422px] mx-auto"
+                loading="lazy"
               />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-4 section-spacing">
@@ -1057,6 +1062,7 @@ const App: React.FC = () => {
                 alt={gameConfig[form.game].name}
                 src={gameConfig[form.game].image}
                 className="mlbb-image13"
+                loading="lazy"
               />
               <div className="mlbb-container12">
                 <span className="mlbb-text18 khmer-font">{gameConfig[form.game].name}</span>
@@ -1194,6 +1200,7 @@ const App: React.FC = () => {
                       src="https://sakuratopup.com/assets/images/KHQR.svg"
                       alt="KHQR"
                       className="w-full h-full object-cover rounded-[5px]"
+                      loading="lazy"
                     />
                   </div>
                   <div className="flex-1">
@@ -1268,6 +1275,7 @@ const App: React.FC = () => {
                 src="https://raw.githubusercontent.com/Cheagjihvg/jackstore-asssets/refs/heads/main/Untitled-1%20(1).png"
                 alt="Banner"
                 className="w-full h-auto max-h-40 object-contain max-w-[422px] mx-auto"
+                loading="lazy"
               />
             </div>
             <div className="nav-container">
@@ -1282,6 +1290,7 @@ const App: React.FC = () => {
                               src={`https://netonlinestores.com/_next/image?url=%2Fassets%2Fmain%2F${method}-lg.webp&w=750&q=75`}
                               alt={`${method.toUpperCase()} Payment`}
                               className="w-full h-full object-contain"
+                              loading="lazy"
                             />
                           </div>
                         </div>
@@ -1351,12 +1360,10 @@ const App: React.FC = () => {
                   { gameId: 'mlbb_ph', href: 'https://dinotopup.com/id/mlbb_ph', title: 'Mobile Legendss PH', subtitle: 'Mobile Legendss PH 🇰🇭' },
                   { gameId: 'magicchessgogo', href: 'https://dinotopup.com/id/magicchessgogo', title: 'Magic Chess GoGo', subtitle: 'Magic Chess GoGo 🇰🇭' },
                 ].map((item, index) => (
-                  <a
+                  <div
                     key={index}
-                    href={item.href}
-                    className="bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800"
-                    onClick={(e) => {
-                      e.preventDefault();
+                    className="popular-card bg-nvd neverzoom flex items-center gap-x-1.5 rounded-xl bg-murky-600 p-1.5 duration-300 ease-in-out hover:shadow-2xl hover:ring-2 hover:ring-primary-500 hover:ring-offset-2 hover:ring-offset-murky-800 md:gap-x-3 md:rounded-2xl md:p-3 bg-murky-800"
+                    onClick={() => {
                       if (gameConfig[item.gameId as keyof typeof gameConfig].enabled) {
                         setForm(prev => ({ ...prev, game: item.gameId as keyof typeof gameConfig }));
                         setShowTopUp(true);
@@ -1370,12 +1377,13 @@ const App: React.FC = () => {
                       src={gameConfig[item.gameId as keyof typeof gameConfig].image}
                       className="aspect-square h-14 w-14 rounded-lg !object-cover !object-center ring-1 ring-murky-600 md:h-20 md:w-20 md:rounded-xl"
                       alt={item.title}
+                      loading="lazy"
                     />
                     <div className="relative flex w-full flex-col">
                       <h2 className="w-[100px] truncate text-white font-semibold sm:w-[200px] md:w-[275px] md:text-base">{item.title}</h2>
                       <p className="text-white md:text-sm">{item.subtitle}</p>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             </section>
@@ -1390,7 +1398,7 @@ const App: React.FC = () => {
                   >
                     <div className="game-center-card">
                       <div className="relative">
-                        <img src={image} alt={name} class="game-center-image" />
+                        <img src={image} alt={name} class="game-center-image" loading="lazy" />
                         <div className="game-center-badge khmer-font">{enabled ? 'ពេញនិយម' : 'Coming Soon'}</div>
                       </div>
                       <div className="game-center-info">
@@ -1440,6 +1448,7 @@ const App: React.FC = () => {
                         src={post.image}
                         alt={post.alt}
                         className="w-full h-[190px] object-cover rounded-t-lg"
+                        loading="lazy"
                       />
                       <span className="author">Admin</span>
                     </div>
@@ -1689,7 +1698,7 @@ const App: React.FC = () => {
         <h3 className="text-[#ffd700] font-bold text-xl mb-4 khmer-font">ទទួលយកការទូទាត់</h3>
         <ul className="flex justify-center space-x-4">
           <li>
-            <img src="https://sakuratopup.com/assets/images/KHQR.svg" alt="KHQR" className="w-16 h-16 object-contain" />
+            <img src="https://sakuratopup.com/assets/images/KHQR.svg" alt="KHQR" className="w-16 h-16 object-contain" loading="lazy" />
           </li>
         </ul>
       </div>
