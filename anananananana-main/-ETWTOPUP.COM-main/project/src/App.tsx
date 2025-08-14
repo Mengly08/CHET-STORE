@@ -1046,11 +1046,18 @@ const App: React.FC = () => {
         img {
           loading: lazy;
         }
+        html {
+          scroll-behavior: smooth;
+        }
+        body {
+          overscroll-behavior: none;
+          will-change: transform;
+        }
         * {
-          transition-duration: 0.1s !important;
+          transition-duration: 0.3s !important;
         }
         .blog-box:hover, .feature-card:hover, .popular-card:hover {
-          transition-duration: 0.1s !important;
+          transition-duration: 0.3s !important;
         }
       `}</style>
       <Header />
@@ -1431,8 +1438,8 @@ const App: React.FC = () => {
               <h2 className="text-md font-bold text-[#ffd700] my-2 khmer-font">Games Shop</h2>
               <div className="game-container">
                 {Object.entries(gameConfig).map(([gameId, { name, image, enabled, developer }]) => (
-                  <div 
-                    className="game-center-card-container" 
+                  <div
+                    className="game-center-card-container"
                     key={gameId}
                     onClick={() => handleGameSelect(gameId as keyof typeof gameConfig)}
                   >
