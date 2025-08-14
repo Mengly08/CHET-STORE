@@ -5,9 +5,8 @@
   "faviconUrl": "https://raw.githubusercontent.com/Cheagjihvg/feliex-assets/refs/heads/main/favicon.ico",
   "backgroundImageUrl": "https://raw.githubusercontent.com/Cheagjihvg/sckstore-assets/refs/heads/main/6282830456290394418 (1).jpg",
   "banners": {
-    "banner1": "https://raw.githubusercontent.com/Mengly08/pic/refs/heads/main/photo_2025-08-11_09-08-02.jpg",
-    "banner2": "https://raw.githubusercontent.com/Mengly08/pic/refs/heads/main/photo_2025-08-11_08-33-41.jpg"
-  },
+"banner1": "https://raw.githubusercontent.com/Mengly08/pic/refs/heads/main/photo_2025-08-11_08-33-41.jpg"
+},
   "popupBanner": {
     "image": "https://raw.githubusercontent.com/Cheagjihvg/CAPOO-STORE-ASSSET/refs/heads/main/IMG_0816-removebg-preview.png",
     "enabled": false
