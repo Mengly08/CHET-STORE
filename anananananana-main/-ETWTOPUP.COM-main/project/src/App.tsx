@@ -37,7 +37,7 @@ const gameConfig = {
     developer: 'MOONTON',
   },
   mlbb_ph: {
-    name: 'MLBB PH SG MY',
+    name: 'MLBB PH ',
     image: 'https://dinotopup.com/assets/thumbnail/dbpsroyf1mso95otl5ds%20(1).webp',
     tableName: 'mlbb_ph_products',
     apiUrl: 'https://api.isan.eu.org/nickname/ml?id={userId}&zone={serverId}',
@@ -60,7 +60,7 @@ const gameConfig = {
     apiUrl: 'https://valid.ihsangan.com/mcgg?id={userId}&server={serverId}',
     requiresServerId: true,
     enabled: true,
-    developer: 'MOONTON (1-10mn)',
+    developer: 'MOONTON  ',
   },
   pubg: {
     name: 'PUBG',
