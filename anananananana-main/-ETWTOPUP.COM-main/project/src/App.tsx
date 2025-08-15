@@ -17,7 +17,7 @@ const Header = memo(() => (
         <img src="https://dinotopup.com/assets/thumbnail/09fefb01ece6b4dc30caf14da82658d3e4b095e7.webp" alt="Left Logo" className="w-10 h-10 rounded" loading="eager" />
       </div>
       <div className="flex-1 flex justify-center flex-col items-center">
-        <span className="text-lg font-bold text-black khmer-font">ETWTOPUP</span>
+        <span className="text-lg font-bold text-black khmer-font">KVAI STORE</span>
         <span className="text-xs text-black khmer-font">Mobile Legends & Free Fire Top-up Center</span>
       </div>
       <div className="flex-shrink-0">
